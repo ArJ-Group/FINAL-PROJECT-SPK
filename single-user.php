@@ -67,8 +67,8 @@ require_once('template-parts/header.php');
 			
 		</div>
 	
-	</div><!-- .container -->
-	</div><!-- .main-content-row -->
+	</div>
+	</div>
 
 
 <?php

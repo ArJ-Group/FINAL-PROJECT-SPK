@@ -1,6 +1,6 @@
-	</div><!-- #main -->
-	</div><!-- #main -->
-	</div><!-- #main -->
+	</div>
+	</div>
+	</div>
 
 
 
@@ -18,7 +18,7 @@
 		</div>
 	</footer>
 
-	</div><!-- #page -->
+	</div>
 	</body>
 
 	</html>
