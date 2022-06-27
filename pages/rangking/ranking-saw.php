@@ -8,6 +8,7 @@ $qry = $pdo->prepare('SELECT id_kriteria, nama, type, bobot
 $qry->execute();
 $qry->setFetchMode(PDO::FETCH_ASSOC);
 $sub_crite = $qry->fetchAll();
+<<<<<<< HEAD
 
 
 <<<<<<< HEAD
@@ -24,6 +25,14 @@ $query2->execute();
 $query2->setFetchMode(PDO::FETCH_ASSOC);
 $Employe = $query2->fetchAll();
 >>>>>>> d7545b274c85df9748b5b4175e17673b2a62d6d0
+=======
+
+
+$qry2 = $pdo->prepare('SELECT id_pegawai, nomer FROM pegawai');
+$qry2->execute();			
+$qry2->setFetchMode(PDO::FETCH_ASSOC);
+$Employe = $qry2->fetchAll();
+>>>>>>> 3e7139f0e4dba4691f7d43187ec95ec7f8e7ad8b
 
 
 $getCalculate = array();
@@ -53,6 +62,7 @@ foreach($sub_crite as $kriteria):
 	endforeach;
 endforeach;
 <<<<<<< HEAD
+<<<<<<< HEAD
 $ResultCal = array();
 foreach($getCalculate as $id_kriteria => $nilai_pegawais):
 =======
@@ -63,6 +73,10 @@ foreach($getCalculate as $id_kriteria => $nilai_pegawais):
 $matriks_r = array();
 foreach($matriks_x as $id_kriteria => $nilai_Employe):
 >>>>>>> d7545b274c85df9748b5b4175e17673b2a62d6d0
+=======
+$ResultCal = array();
+foreach($getCalculate as $id_kriteria => $nilai_Employe):
+>>>>>>> 3e7139f0e4dba4691f7d43187ec95ec7f8e7ad8b
 	
 	$type = $list_kriteria[$id_kriteria]['type'];
 	foreach($nilai_Employe as $id_alternatif => $nilai) {
@@ -78,7 +92,11 @@ foreach($matriks_x as $id_kriteria => $nilai_Employe):
 endforeach;
 
 
+<<<<<<< HEAD
 $ranks = array();
+=======
+$torank = array();
+>>>>>>> 3e7139f0e4dba4691f7d43187ec95ec7f8e7ad8b
 foreach($Employe as $pegawai):
 
 	$total_nilai = 0;
@@ -93,9 +111,9 @@ foreach($Employe as $pegawai):
 
 	}
 	
-	$ranks[$pegawai['id_pegawai']]['id_pegawai'] = $pegawai['id_pegawai'];
-	$ranks[$pegawai['id_pegawai']]['nomer'] = $pegawai['nomer'];
-	$ranks[$pegawai['id_pegawai']]['nilai'] = $total_nilai;
+	$torank[$pegawai['id_pegawai']]['id_pegawai'] = $pegawai['id_pegawai'];
+	$torank[$pegawai['id_pegawai']]['nomer'] = $pegawai['nomer'];
+	$torank[$pegawai['id_pegawai']]['nilai'] = $total_nilai;
 	
 endforeach;
  
@@ -109,7 +127,11 @@ endforeach;
 		<h1><?php echo $get_title; ?></h1>
 		
 			
+<<<<<<< HEAD
 		<h3>Step 1: Matriks Keputusan (X)</h3>
+=======
+		<h3> Matriks Keputusan</h3>
+>>>>>>> 3e7139f0e4dba4691f7d43187ec95ec7f8e7ad8b
 		<table class="pure-table pure-table-striped">
 			<thead>
 				<tr class="super-top">
@@ -142,14 +164,18 @@ endforeach;
 		
 		
 <<<<<<< HEAD
+<<<<<<< HEAD
 		<h3>Step 2: Bobot Preferensi (W)</h3>			
 =======
 		<h3>Step 2: Bobot Preferensi </h3>			
 >>>>>>> d7545b274c85df9748b5b4175e17673b2a62d6d0
+=======
+		<h3> Bobot Preferensi </h3>			
+>>>>>>> 3e7139f0e4dba4691f7d43187ec95ec7f8e7ad8b
 		<table class="pure-table pure-table-striped">
 			<thead>
 				<tr>
-					<th>Nama Kriteria</th>
+					<th>Kriteria</th>
 					<th>Type</th>
 					<th>Bobot</th>						
 				</tr>
@@ -174,7 +200,11 @@ endforeach;
 		</table>
 		
 		
+<<<<<<< HEAD
 		<h3>Step 3: Matriks Ternormalisasi (R)</h3>			
+=======
+		<h3> Matriks Ternormalisasi </h3>			
+>>>>>>> 3e7139f0e4dba4691f7d43187ec95ec7f8e7ad8b
 		<table class="pure-table pure-table-striped">
 			<thead>
 				<tr class="super-top">
@@ -208,7 +238,11 @@ endforeach;
 		
 		
 		<?php		
+<<<<<<< HEAD
 		$sorted = $ranks;		
+=======
+		$sorted = $torank;		
+>>>>>>> 3e7139f0e4dba4691f7d43187ec95ec7f8e7ad8b
 	
 		if(function_exists('array_multisort')):
 			$nomer = array();
@@ -220,7 +254,7 @@ endforeach;
 			array_multisort($nilai, SORT_DESC, $nomer, SORT_ASC, $sorted);
 		endif;
 		?>		
-		<h3>Step 4: Perangkingan (V)</h3>			
+		<h3> Perangkingan </h3>			
 		<table class="pure-table pure-table-striped">
 			<thead>					
 				<tr>
