@@ -161,7 +161,7 @@ endforeach;
 			<h1><?php echo $get_title; ?></h1>
 
 
-			<h3>Step 1: Matriks Keputusan (X)</h3>
+			<h3> Matriks Keputusan (X)</h3>
 			<table class="pure-table pure-table-striped">
 				<thead>
 					<tr class="super-top">
@@ -193,11 +193,11 @@ endforeach;
 			</table>
 
 
-			<h3>Step 2: Bobot Preferensi </h3>
+			<h3> Bobot Preferensi </h3>
 			<table class="pure-table pure-table-striped">
 				<thead>
 					<tr>
-						<th>Nama Kriteria</th>
+						<th>Kriteria</th>
 						<th>Type</th>
 						<th>Bobot</th>
 					</tr>
@@ -222,7 +222,8 @@ endforeach;
 			</table>
 
 
-			<h3>Step 3: Matriks Ternormalisasi (R)</h3>
+			<h3>
+				 Matriks Ternormalisasi (R)</h3>
 			<table class="pure-table pure-table-striped">
 				<thead>
 					<tr class="super-top">
@@ -255,7 +256,7 @@ endforeach;
 
 
 
-			<h3>Step 4: Matriks Y</h3>
+			<h3> Matriks </h3>
 			<table class="pure-table pure-table-striped">
 				<thead>
 					<tr class="super-top">
@@ -288,7 +289,7 @@ endforeach;
 
 
 
-			<h3>Step 5.1: Solusi Ideal Positif (A<sup>+</sup>)</h3>
+			<h3> Solusi Ideal Positif (A<sup>+</sup>)</h3>
 			<table class="pure-table pure-table-striped">
 				<thead>
 					<tr>
@@ -312,7 +313,7 @@ endforeach;
 			</table>
 
 
-			<h3>Step 5.2: Solusi Ideal Negatif (A<sup>-</sup>)</h3>
+			<h3> Solusi Ideal Negatif (A<sup>-</sup>)</h3>
 			<table class="pure-table pure-table-striped">
 				<thead>
 					<tr>
@@ -336,7 +337,7 @@ endforeach;
 			</table>
 
 
-			<h3>Step 6.1: Jarak Ideal Positif (S<sub>i</sub>+)</h3>
+			<h3> Jarak Ideal Positif (S<sub>i</sub>+)</h3>
 			<table class="pure-table pure-table-striped">
 				<thead>
 					<tr>
@@ -360,7 +361,7 @@ endforeach;
 			</table>
 
 
-			<h3>Step 6.2: Jarak Ideal Negatif (S<sub>i</sub>-)</h3>
+			<h3> Jarak Ideal Negatif (S<sub>i</sub>-)</h3>
 			<table class="pure-table pure-table-striped">
 				<thead>
 					<tr>
@@ -397,7 +398,7 @@ endforeach;
 			array_multisort($nilai, SORT_DESC, $nomer, SORT_ASC, $sorted);
 		endif;
 		?>
-			<h3>Step 7: Perangkingan (V)</h3>
+			<h3> Perangkingan </h3>
 			<table class="pure-table pure-table-striped">
 				<thead>
 					<tr>
