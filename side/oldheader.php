@@ -55,10 +55,10 @@
 									</ul>
 								</li>
 							<?php endif; ?>
-							<li><a href="pages/ranking/ranking-topsis.php">Ranking</a>
+							<li><a href="pages/ranking/topsis.php">Ranking</a>
 								<ul>
-									<li><a href="pages/ranking/ranking-topsis.php">Topsis</a></li>
-									<li><a href="pages/ranking/ranking-saw.php">SAW</a></li>
+									<li><a href="pages/ranking/topsis.php">Topsis</a></li>
+									<li><a href="pages/ranking/saw.php">SAW</a></li>
 								</ul>
 							</li>
 						</ul>

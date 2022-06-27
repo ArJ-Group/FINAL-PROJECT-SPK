@@ -229,10 +229,10 @@
 
 								<ul class="collapse list-unstyled sub-submenu show" id="">
 									<li class="active">
-										<a href="pages/ranking/ranking-topsis.php"> Topsis </a>
+										<a href="pages/ranking/topsis.php"> Topsis </a>
 									</li>
 									<li>
-										<a href="pages/ranking/ranking-saw.php"> SAW </a>
+										<a href="pages/ranking/saw.php"> SAW </a>
 									</li>
 
 								</ul>
