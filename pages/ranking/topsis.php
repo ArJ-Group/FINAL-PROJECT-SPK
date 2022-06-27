@@ -14,36 +14,6 @@ $qry2->execute();
 $qry2->setFetchMode(PDO::FETCH_ASSOC);
 $Employe = $qry2->fetchAll();
 
-$ResultCal = array();
-foreach($getCalculate as $id_kriteria => $nilai_Employe):
-	
-	$jumlah_kuadrat = 0;
-	foreach($nilai_Employe as $nilai_pegawai):
-		$jumlah_kuadrat += pow($nilai_pegawai, 2);
-	endforeach;
-	$sqrt = sqrt($jumlah_kuadrat);
-	
-	foreach($nilai_Employe as $id_pegawai => $nilai_pegawai):
-		$ResultCal[$id_kriteria][$id_pegawai] = $nilai_pegawai / $sqrt;
-	endforeach;
-	
-endforeach;
-
-
-
-$Cal = array();
-foreach($sub_crite as $kriteria):
-	foreach($Employe as $pegawai):
-		
-		$bobot = $kriteria['bobot'];
-		$id_pegawai = $pegawai['id_pegawai'];
-		$id_kriteria = $kriteria['id_kriteria'];
-		
-		$nilai_r = $ResultCal[$id_kriteria][$id_pegawai];
-		$Cal[$id_kriteria][$id_pegawai] = $bobot * $nilai_r;
-
-	endforeach;
-endforeach;
 
 
 $getCalculate = array();
@@ -70,6 +40,38 @@ foreach($sub_crite as $kriteria):
 
 	endforeach;
 endforeach;
+
+$ResultCal = array();
+foreach($getCalculate as $id_kriteria => $nilai_Employe):
+	
+	$jumlah_kuadrat = 0;
+	foreach($nilai_Employe as $nilai_pegawai):
+		$jumlah_kuadrat += pow($nilai_pegawai, 2);
+	endforeach;
+	$sqrt = sqrt($jumlah_kuadrat);
+	
+	foreach($nilai_Employe as $id_pegawai => $nilai_pegawai):
+		$ResultCal[$id_kriteria][$id_pegawai] = $nilai_pegawai / $sqrt;
+	endforeach;
+	
+endforeach;
+
+$Cal = array();
+foreach($sub_crite as $kriteria):
+	foreach($Employe as $pegawai):
+		
+		$bobot = $kriteria['bobot'];
+		$id_pegawai = $pegawai['id_pegawai'];
+		$id_kriteria = $kriteria['id_kriteria'];
+		
+		$nilai_r = $ResultCal[$id_kriteria][$id_pegawai];
+		$Cal[$id_kriteria][$id_pegawai] = $bobot * $nilai_r;
+
+	endforeach;
+endforeach;
+
+
+
 
 $S_plus = array();
 $S_Min = array();
