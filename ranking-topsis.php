@@ -12,18 +12,18 @@ $sub_crite = $qry->fetchAll();
 $qry2 = $pdo->prepare('SELECT id_pegawai, nomer FROM pegawai');
 $qry2->execute();			
 $qry2->setFetchMode(PDO::FETCH_ASSOC);
-$pegawais = $qry2->fetchAll();
+$Employe = $qry2->fetchAll();
 
 $ResultCal = array();
-foreach($getCalculate as $id_kriteria => $nilai_pegawais):
+foreach($getCalculate as $id_kriteria => $nilai_Employe):
 	
 	$jumlah_kuadrat = 0;
-	foreach($nilai_pegawais as $nilai_pegawai):
+	foreach($nilai_Employe as $nilai_pegawai):
 		$jumlah_kuadrat += pow($nilai_pegawai, 2);
 	endforeach;
 	$sqrt = sqrt($jumlah_kuadrat);
 	
-	foreach($nilai_pegawais as $id_pegawai => $nilai_pegawai):
+	foreach($nilai_Employe as $id_pegawai => $nilai_pegawai):
 		$ResultCal[$id_kriteria][$id_pegawai] = $nilai_pegawai / $sqrt;
 	endforeach;
 	
@@ -33,7 +33,7 @@ endforeach;
 
 $Cal = array();
 foreach($sub_crite as $kriteria):
-	foreach($pegawais as $pegawai):
+	foreach($Employe as $pegawai):
 		
 		$bobot = $kriteria['bobot'];
 		$id_pegawai = $pegawai['id_pegawai'];
@@ -48,7 +48,7 @@ endforeach;
 
 $getCalculate = array();
 foreach($sub_crite as $kriteria):
-	foreach($pegawais as $pegawai):
+	foreach($Employe as $pegawai):
 		
 		$id_pegawai = $pegawai['id_pegawai'];
 		$id_kriteria = $kriteria['id_kriteria'];
@@ -98,17 +98,17 @@ endforeach;
 
 $PidealS = array();
 $NidealS = array();
-foreach($pegawais as $pegawai):
+foreach($Employe as $pegawai):
 
 	$id_pegawai = $pegawai['id_pegawai'];		
 	$jumlah_kuadrat_jip = 0;
 	$jumlah_kuadrat_jin = 0;
 	
 	// Mencari penjumlahan kuadrat
-	foreach($Cal as $id_kriteria => $nilai_pegawais):
+	foreach($Cal as $id_kriteria => $nilai_Employe):
 		
-		$hsl_pengurangan_jip = $nilai_pegawais[$id_pegawai] - $S_plus[$id_kriteria];
-		$hsl_pengurangan_jin = $nilai_pegawais[$id_pegawai] - $S_Min[$id_kriteria];
+		$hsl_pengurangan_jip = $nilai_Employe[$id_pegawai] - $S_plus[$id_kriteria];
+		$hsl_pengurangan_jin = $nilai_Employe[$id_pegawai] - $S_Min[$id_kriteria];
 		
 		$jumlah_kuadrat_jip += pow($hsl_pengurangan_jip, 2);
 		$jumlah_kuadrat_jin += pow($hsl_pengurangan_jin, 2);
@@ -126,17 +126,17 @@ foreach($pegawais as $pegawai):
 endforeach;
 
 
-$ranks = array();
-foreach($pegawais as $pegawai):
+$torank = array();
+foreach($Employe as $pegawai):
 
 	$s_negatif = $NidealS[$pegawai['id_pegawai']];
 	$s_positif = $PidealS[$pegawai['id_pegawai']];	
 	
 	$nilai_v = $s_negatif / ($s_positif + $s_negatif);
 	
-	$ranks[$pegawai['id_pegawai']]['id_pegawai'] = $pegawai['id_pegawai'];
-	$ranks[$pegawai['id_pegawai']]['nomer'] = $pegawai['nomer'];
-	$ranks[$pegawai['id_pegawai']]['nilai'] = $nilai_v;
+	$torank[$pegawai['id_pegawai']]['id_pegawai'] = $pegawai['id_pegawai'];
+	$torank[$pegawai['id_pegawai']]['nomer'] = $pegawai['nomer'];
+	$torank[$pegawai['id_pegawai']]['nilai'] = $nilai_v;
 	
 endforeach;
  
@@ -161,7 +161,7 @@ endforeach;
 			<h1><?php echo $get_title; ?></h1>
 
 
-			<h3>Step 1: Matriks Keputusan (X)</h3>
+			<h3> Matriks Keputusan (X)</h3>
 			<table class="pure-table pure-table-striped">
 				<thead>
 					<tr class="super-top">
@@ -175,7 +175,7 @@ endforeach;
 					</tr>
 				</thead>
 				<tbody>
-					<?php foreach($pegawais as $pegawai): ?>
+					<?php foreach($Employe as $pegawai): ?>
 					<tr>
 						<td><?php echo $pegawai['nomer']; ?></td>
 						<?php						
@@ -193,11 +193,11 @@ endforeach;
 			</table>
 
 
-			<h3>Step 2: Bobot Preferensi (W)</h3>
+			<h3> Bobot Preferensi </h3>
 			<table class="pure-table pure-table-striped">
 				<thead>
 					<tr>
-						<th>Nama Kriteria</th>
+						<th>Kriteria</th>
 						<th>Type</th>
 						<th>Bobot</th>
 					</tr>
@@ -222,7 +222,8 @@ endforeach;
 			</table>
 
 
-			<h3>Step 3: Matriks Ternormalisasi (R)</h3>
+			<h3>
+				 Matriks Ternormalisasi (R)</h3>
 			<table class="pure-table pure-table-striped">
 				<thead>
 					<tr class="super-top">
@@ -236,7 +237,7 @@ endforeach;
 					</tr>
 				</thead>
 				<tbody>
-					<?php foreach($pegawais as $pegawai): ?>
+					<?php foreach($Employe as $pegawai): ?>
 					<tr>
 						<td><?php echo $pegawai['nomer']; ?></td>
 						<?php						
@@ -255,7 +256,7 @@ endforeach;
 
 
 
-			<h3>Step 4: Matriks Y</h3>
+			<h3> Matriks </h3>
 			<table class="pure-table pure-table-striped">
 				<thead>
 					<tr class="super-top">
@@ -269,7 +270,7 @@ endforeach;
 					</tr>
 				</thead>
 				<tbody>
-					<?php foreach($pegawais as $pegawai): ?>
+					<?php foreach($Employe as $pegawai): ?>
 					<tr>
 						<td><?php echo $pegawai['nomer']; ?></td>
 						<?php						
@@ -288,7 +289,7 @@ endforeach;
 
 
 
-			<h3>Step 5.1: Solusi Ideal Positif (A<sup>+</sup>)</h3>
+			<h3> Solusi Ideal Positif (A<sup>+</sup>)</h3>
 			<table class="pure-table pure-table-striped">
 				<thead>
 					<tr>
@@ -312,7 +313,7 @@ endforeach;
 			</table>
 
 
-			<h3>Step 5.2: Solusi Ideal Negatif (A<sup>-</sup>)</h3>
+			<h3> Solusi Ideal Negatif (A<sup>-</sup>)</h3>
 			<table class="pure-table pure-table-striped">
 				<thead>
 					<tr>
@@ -336,7 +337,7 @@ endforeach;
 			</table>
 
 
-			<h3>Step 6.1: Jarak Ideal Positif (S<sub>i</sub>+)</h3>
+			<h3> Jarak Ideal Positif (S<sub>i</sub>+)</h3>
 			<table class="pure-table pure-table-striped">
 				<thead>
 					<tr>
@@ -345,7 +346,7 @@ endforeach;
 					</tr>
 				</thead>
 				<tbody>
-					<?php foreach($pegawais as $pegawai ): ?>
+					<?php foreach($Employe as $pegawai ): ?>
 					<tr>
 						<td><?php echo $pegawai['nomer']; ?></td>
 						<td>
@@ -360,7 +361,7 @@ endforeach;
 			</table>
 
 
-			<h3>Step 6.2: Jarak Ideal Negatif (S<sub>i</sub>-)</h3>
+			<h3> Jarak Ideal Negatif (S<sub>i</sub>-)</h3>
 			<table class="pure-table pure-table-striped">
 				<thead>
 					<tr>
@@ -369,7 +370,7 @@ endforeach;
 					</tr>
 				</thead>
 				<tbody>
-					<?php foreach($pegawais as $pegawai ): ?>
+					<?php foreach($Employe as $pegawai ): ?>
 					<tr>
 						<td><?php echo $pegawai['nomer']; ?></td>
 						<td>
@@ -386,7 +387,7 @@ endforeach;
 
 
 			<?php		
-		$sorted = $ranks;	
+		$sorted = $torank;	
 		
 
 		if(function_exists('array_multisort')):
@@ -397,7 +398,7 @@ endforeach;
 			array_multisort($nilai, SORT_DESC, $nomer, SORT_ASC, $sorted);
 		endif;
 		?>
-			<h3>Step 7: Perangkingan (V)</h3>
+			<h3> Perangkingan </h3>
 			<table class="pure-table pure-table-striped">
 				<thead>
 					<tr>

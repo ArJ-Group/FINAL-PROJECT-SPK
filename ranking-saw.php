@@ -13,14 +13,14 @@ $sub_crite = $qry->fetchAll();
 $qry2 = $pdo->prepare('SELECT id_pegawai, nomer FROM pegawai');
 $qry2->execute();			
 $qry2->setFetchMode(PDO::FETCH_ASSOC);
-$pegawais = $qry2->fetchAll();
+$Employe = $qry2->fetchAll();
 
 
 $getCalculate = array();
 $list_kriteria = array();
 foreach($sub_crite as $kriteria):
 	$list_kriteria[$kriteria['id_kriteria']] = $kriteria;
-	foreach($pegawais as $pegawai):
+	foreach($Employe as $pegawai):
 		
 		$id_pegawai = $pegawai['id_pegawai'];
 		$id_kriteria = $kriteria['id_kriteria'];
@@ -43,14 +43,14 @@ foreach($sub_crite as $kriteria):
 	endforeach;
 endforeach;
 $ResultCal = array();
-foreach($getCalculate as $id_kriteria => $nilai_pegawais):
+foreach($getCalculate as $id_kriteria => $nilai_Employe):
 	
 	$type = $list_kriteria[$id_kriteria]['type'];
-	foreach($nilai_pegawais as $id_alternatif => $nilai) {
+	foreach($nilai_Employe as $id_alternatif => $nilai) {
 		if($type == 'benefit') {
-			$nilai_normal = $nilai / max($nilai_pegawais);
+			$nilai_normal = $nilai / max($nilai_Employe);
 		} elseif($type == 'cost') {
-			$nilai_normal = min($nilai_pegawais) / $nilai;
+			$nilai_normal = min($nilai_Employe) / $nilai;
 		}
 		
 		$ResultCal[$id_kriteria][$id_alternatif] = $nilai_normal;
@@ -59,8 +59,8 @@ foreach($getCalculate as $id_kriteria => $nilai_pegawais):
 endforeach;
 
 
-$ranks = array();
-foreach($pegawais as $pegawai):
+$torank = array();
+foreach($Employe as $pegawai):
 
 	$total_nilai = 0;
 	foreach($list_kriteria as $kriteria) {
@@ -74,9 +74,9 @@ foreach($pegawais as $pegawai):
 
 	}
 	
-	$ranks[$pegawai['id_pegawai']]['id_pegawai'] = $pegawai['id_pegawai'];
-	$ranks[$pegawai['id_pegawai']]['nomer'] = $pegawai['nomer'];
-	$ranks[$pegawai['id_pegawai']]['nilai'] = $total_nilai;
+	$torank[$pegawai['id_pegawai']]['id_pegawai'] = $pegawai['id_pegawai'];
+	$torank[$pegawai['id_pegawai']]['nomer'] = $pegawai['nomer'];
+	$torank[$pegawai['id_pegawai']]['nilai'] = $total_nilai;
 	
 endforeach;
  
@@ -90,7 +90,7 @@ endforeach;
 		<h1><?php echo $get_title; ?></h1>
 		
 			
-		<h3>Step 1: Matriks Keputusan (X)</h3>
+		<h3> Matriks Keputusan</h3>
 		<table class="pure-table pure-table-striped">
 			<thead>
 				<tr class="super-top">
@@ -104,7 +104,7 @@ endforeach;
 				</tr>
 			</thead>
 			<tbody>
-				<?php foreach($pegawais as $pegawai): ?>
+				<?php foreach($Employe as $pegawai): ?>
 					<tr>
 						<td><?php echo $pegawai['nomer']; ?></td>
 						<?php						
@@ -122,11 +122,11 @@ endforeach;
 		</table>
 		
 		
-		<h3>Step 2: Bobot Preferensi (W)</h3>			
+		<h3> Bobot Preferensi </h3>			
 		<table class="pure-table pure-table-striped">
 			<thead>
 				<tr>
-					<th>Nama Kriteria</th>
+					<th>Kriteria</th>
 					<th>Type</th>
 					<th>Bobot</th>						
 				</tr>
@@ -151,7 +151,7 @@ endforeach;
 		</table>
 		
 		
-		<h3>Step 3: Matriks Ternormalisasi (R)</h3>			
+		<h3> Matriks Ternormalisasi </h3>			
 		<table class="pure-table pure-table-striped">
 			<thead>
 				<tr class="super-top">
@@ -165,7 +165,7 @@ endforeach;
 				</tr>
 			</thead>
 			<tbody>
-				<?php foreach($pegawais as $pegawai): ?>
+				<?php foreach($Employe as $pegawai): ?>
 					<tr>
 						<td><?php echo $pegawai['nomer']; ?></td>
 						<?php						
@@ -185,7 +185,7 @@ endforeach;
 		
 		
 		<?php		
-		$sorted = $ranks;		
+		$sorted = $torank;		
 	
 		if(function_exists('array_multisort')):
 			$nomer = array();
@@ -197,7 +197,7 @@ endforeach;
 			array_multisort($nilai, SORT_DESC, $nomer, SORT_ASC, $sorted);
 		endif;
 		?>		
-		<h3>Step 4: Perangkingan (V)</h3>			
+		<h3> Perangkingan </h3>			
 		<table class="pure-table pure-table-striped">
 			<thead>					
 				<tr>

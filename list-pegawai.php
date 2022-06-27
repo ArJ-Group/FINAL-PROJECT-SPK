@@ -82,7 +82,7 @@ require_once('side/header.php');
 			$qry2 = $pdo->prepare('SELECT id_pegawai, nomer FROM pegawai');
 			$qry2->execute();			
 			$qry2->setFetchMode(PDO::FETCH_ASSOC);
-			$pegawais = $qry2->fetchAll();			
+			$Employe = $qry2->fetchAll();			
 			?>
 			
 			<h3>Matriks Keputusan (X)</h3>
@@ -99,7 +99,7 @@ require_once('side/header.php');
 					</tr>
 				</thead>
 				<tbody>
-					<?php foreach($pegawais as $pegawai): ?>
+					<?php foreach($Employe as $pegawai): ?>
 						<tr>
 							<td><?php echo $pegawai['nomer']; ?></td>
 							<?php
