@@ -1,4 +1,4 @@
-<?php require_once('includes/init.php'); ?>
+<?php require_once('../condb/include.php'); ?>
 <?php cek_login($role = array(1)); ?>
 
 <?php
@@ -22,13 +22,13 @@ if(!$id_user) {
 
 <?php
 $judul_page = 'Detail User';
-require_once('template-parts/header.php');
+require_once('../../side/header.php');
 ?>
 
 	<div class="main-content-row">
 	<div class="container clearfix">
 	
-		<?php include_once('template-parts/sidebar-user.php'); ?>
+		<?php include_once('../../side/sidebar-user.php'); ?>
 	
 		<div class="main-content the-content">
 			<h1><?php echo $judul_page; ?></h1>
@@ -72,4 +72,4 @@ require_once('template-parts/header.php');
 
 
 <?php
-require_once('template-parts/footer.php');
+require_once('../../side/footer.php');

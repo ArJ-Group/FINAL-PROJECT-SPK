@@ -1,15 +1,15 @@
-<?php require_once('includes/init.php'); ?>
+<?php require_once('../condb/include.php'); ?>
 <?php cek_login($role = array(1)); ?>
 
 <?php
 $judul_page = 'List Kriteria';
-require_once('template-parts/header.php');
+require_once('../../side/header.php');
 ?>
 
 	<div class="main-content-row">
 	<div class="container clearfix">
 	
-		<?php include_once('template-parts/sidebar-kriteria.php'); ?>
+		<?php include_once('../../side/sidebar-kriteria.php'); ?>
 	
 		<div class="main-content the-content">
 			
@@ -92,4 +92,4 @@ require_once('template-parts/header.php');
 	</div><!-- .main-content-row -->
 
 <?php
-require_once('template-parts/footer.php');
+require_once('../../side/footer.php');

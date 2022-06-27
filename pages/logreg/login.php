@@ -1,4 +1,4 @@
-<?php require_once('includes/init.php'); ?>
+<?php require_once('../condb/include.php'); ?>
 
 <?php
 $errors = array();
@@ -45,7 +45,7 @@ endif;
 
 <?php
 $judul_page = 'Log in';
-require_once('template-parts/header.php');
+require_once('../../side/header.php');
 ?>
 
 <head>
@@ -99,4 +99,4 @@ require_once('template-parts/header.php');
 </div><!-- .main-content-row -->
 
 <?php
-require_once('template-parts/footer.php');
+require_once('../../side/footer.php');
