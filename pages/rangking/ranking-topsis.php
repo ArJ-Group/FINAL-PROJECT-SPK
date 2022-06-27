@@ -242,7 +242,7 @@ endforeach;
 				<tr>
 					<th>Nama Kriteria</th>
 					<th>Type</th>
-					<th>Bobot (W)</th>						
+					<th>Bobot</th>						
 				</tr>
 			</thead>
 			<tbody>
