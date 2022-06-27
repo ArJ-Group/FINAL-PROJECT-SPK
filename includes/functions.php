@@ -1,7 +1,7 @@
 <?php
 function ambil_template($nama_template = '') {
 	if($nama_template) {
-		require_once('template-parts/'.$nama_template.'.php');
+		require_once('side/'.$nama_template.'.php');
 	}	
 }
 

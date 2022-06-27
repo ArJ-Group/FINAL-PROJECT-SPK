@@ -71,13 +71,13 @@ endif;
 
 <?php
 $judul_page = 'Tambah User';
-require_once('template-parts/header.php');
+require_once('side/header.php');
 ?>
 
 	<div class="main-content-row">
 	<div class="container clearfix">
 	
-		<?php include_once('template-parts/sidebar-kriteria.php'); ?>
+		<?php include_once('side/sidebar-kriteria.php'); ?>
 	
 		<div class="main-content the-content">
 			<h1>Tambah Kriteria</h1>
@@ -156,4 +156,4 @@ require_once('template-parts/header.php');
 
 
 <?php
-require_once('template-parts/footer.php');
+require_once('side/footer.php');

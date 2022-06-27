@@ -5,7 +5,7 @@ require_once('includes/init.php');
 
 
 $judul_page = 'Perankingan Menggunakan Metode TOPSIS';
-require_once('template-parts/header.php');
+require_once('side/header.php');
 
 
 $digit = 4;
@@ -436,4 +436,4 @@ endforeach;
 </div>
 
 <?php
-require_once('template-parts/footer.php');
+require_once('side/footer.php');
