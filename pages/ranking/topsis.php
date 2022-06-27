@@ -1,10 +1,10 @@
 <?php
 
-require_once('condb/init.php');
+require_once('../../condb/include.php');
 
 $get_title = 'Perankingan Menggunakan Metode TOPSIS';
 $numberr = 4;
-require_once('side/header.php');
+require_once('../../side/header.php');
 $qry = $pdo->prepare('SELECT id_kriteria, nama, type, bobot	FROM kriteria ORDER BY urutan_order ASC');
 $qry->execute();
 $qry->setFetchMode(PDO::FETCH_ASSOC);
@@ -422,4 +422,4 @@ endforeach;
 </div>
 
 <?php
-require_once('side/footer.php');
+require_once('../../side/footer.php');
