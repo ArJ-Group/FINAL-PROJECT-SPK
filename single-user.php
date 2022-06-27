@@ -62,7 +62,7 @@ require_once('side/header.php');
 			
 			<?php endif; ?>
 			
-			<p><a href="edit-user.php?id=<?php echo $id_user; ?>" class="button"><span class="fa fa-pencil"></span> Edit</a> &nbsp; <a href="hapus-user.php?id=<?php echo $id_user; ?>" class="button button-red yaqin-hapus"><span class="fa fa-times"></span> Hapus</a></p>
+			<p><a href="Uedit.php?id=<?php echo $id_user; ?>" class="button"><span class="fa fa-pencil"></span> Edit</a> &nbsp; <a href="hapus-user.php?id=<?php echo $id_user; ?>" class="button button-red yaqin-hapus"><span class="fa fa-times"></span> Hapus</a></p>
 			
 			
 		</div>

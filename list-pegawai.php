@@ -62,7 +62,7 @@ require_once('side/header.php');
 							<td><?php echo $hasil['nomer']; ?></td>							
 							<td><?php echo $hasil['nama']; ?></td>							
 							<td><a href="single-pegawai.php?id=<?php echo $hasil['id_pegawai']; ?>"><span class="fa fa-eye"></span> Detail</a></td>
-							<td><a href="edit-pegawai.php?id=<?php echo $hasil['id_pegawai']; ?>"><span class="fa fa-pencil"></span> Edit</a></td>
+							<td><a href="Pedit.php?id=<?php echo $hasil['id_pegawai']; ?>"><span class="fa fa-pencil"></span> Edit</a></td>
 							<td><a href="hapus-pegawai.php?id=<?php echo $hasil['id_pegawai']; ?>" class="red yaqin-hapus"><span class="fa fa-times"></span> Hapus</a></td>
 						</tr>
 					<?php endwhile; ?>
