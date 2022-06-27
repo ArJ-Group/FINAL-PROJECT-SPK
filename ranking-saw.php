@@ -1,43 +1,28 @@
 <?php
-
-
-/* ---------------------------------------------
- * Konek ke database & load fungsi-fungsi
- * ------------------------------------------- */
 require_once('includes/init.php');
-
-/* ---------------------------------------------
- * Load Header
- * ------------------------------------------- */
 $judul_page = 'Perankingan Menggunakan Metode SAW';
 require_once('template-parts/header.php');
 
-/* ---------------------------------------------
- * Set jumlah digit di belakang koma
- * ------------------------------------------- */
+
 $digit = 4;
 
-/* ---------------------------------------------
- * Fetch semua kriteria
- * ------------------------------------------- */
+
 $query = $pdo->prepare('SELECT id_kriteria, nama, type, bobot
 	FROM kriteria ORDER BY urutan_order ASC');
 $query->execute();
 $query->setFetchMode(PDO::FETCH_ASSOC);
 $kriterias = $query->fetchAll();
 
-/* ---------------------------------------------
- * Fetch semua pegawai (alternatif)
- * ------------------------------------------- */
+
 $query2 = $pdo->prepare('SELECT id_pegawai, nomer FROM pegawai');
 $query2->execute();			
 $query2->setFetchMode(PDO::FETCH_ASSOC);
 $pegawais = $query2->fetchAll();
 
 
-/* >>> STEP 1 ===================================
+/*  1 
  * Matrix Keputusan (X)
- * ------------------------------------------- */
+*/
 $matriks_x = array();
 $list_kriteria = array();
 foreach($kriterias as $kriteria):
@@ -47,7 +32,7 @@ foreach($kriterias as $kriteria):
 		$id_pegawai = $pegawai['id_pegawai'];
 		$id_kriteria = $kriteria['id_kriteria'];
 		
-		// Fetch nilai dari db
+		
 		$query3 = $pdo->prepare('SELECT nilai FROM nilai_pegawai
 			WHERE id_pegawai = :id_pegawai AND id_kriteria = :id_kriteria');
 		$query3->execute(array(
@@ -56,7 +41,7 @@ foreach($kriterias as $kriteria):
 		));			
 		$query3->setFetchMode(PDO::FETCH_ASSOC);
 		if($nilai_pegawai = $query3->fetch()) {
-			// Jika ada nilai kriterianya
+			
 			$matriks_x[$id_kriteria][$id_pegawai] = $nilai_pegawai['nilai'];
 		} else {			
 			$matriks_x[$id_kriteria][$id_pegawai] = 0;
@@ -65,9 +50,9 @@ foreach($kriterias as $kriteria):
 	endforeach;
 endforeach;
 
-/* >>> STEP 3 ===================================
+/*  3 
  * Matriks Ternormalisasi (R)
- * ------------------------------------------- */
+  */
 $matriks_r = array();
 foreach($matriks_x as $id_kriteria => $nilai_pegawais):
 	
@@ -85,9 +70,9 @@ foreach($matriks_x as $id_kriteria => $nilai_pegawais):
 endforeach;
 
 
-/* >>> STEP 4 ================================
+/*  4 
  * Perangkingan
- * ------------------------------------------- */
+  */
 $ranks = array();
 foreach($pegawais as $pegawai):
 
@@ -118,7 +103,7 @@ endforeach;
 		
 		<h1><?php echo $judul_page; ?></h1>
 		
-		<!-- STEP 1. Matriks Keputusan(X) ==================== -->		
+			
 		<h3>Step 1: Matriks Keputusan (X)</h3>
 		<table class="pure-table pure-table-striped">
 			<thead>
@@ -150,7 +135,7 @@ endforeach;
 			</tbody>
 		</table>
 		
-		<!-- STEP 2. Bobot Preferensi (W) ==================== -->
+		
 		<h3>Step 2: Bobot Preferensi (W)</h3>			
 		<table class="pure-table pure-table-striped">
 			<thead>
@@ -179,7 +164,7 @@ endforeach;
 			</tbody>
 		</table>
 		
-		<!-- Step 3: Matriks Ternormalisasi (R) ==================== -->
+		
 		<h3>Step 3: Matriks Ternormalisasi (R)</h3>			
 		<table class="pure-table pure-table-striped">
 			<thead>
@@ -212,18 +197,18 @@ endforeach;
 		</table>		
 		
 		
-		<!-- Step 4: Perangkingan ==================== -->
+		
 		<?php		
-		$sorted_ranks = $ranks;		
-		// Sorting
+		$sorted = $ranks;		
+	
 		if(function_exists('array_multisort')):
 			$nomer = array();
 			$nilai = array();
-			foreach ($sorted_ranks as $key => $row) {
+			foreach ($sorted as $key => $row) {
 				$nomer[$key]  = $row['nomer'];
 				$nilai[$key] = $row['nilai'];
 			}
-			array_multisort($nilai, SORT_DESC, $nomer, SORT_ASC, $sorted_ranks);
+			array_multisort($nilai, SORT_DESC, $nomer, SORT_ASC, $sorted);
 		endif;
 		?>		
 		<h3>Step 4: Perangkingan (V)</h3>			
@@ -235,7 +220,7 @@ endforeach;
 				</tr>
 			</thead>
 			<tbody>
-				<?php foreach($sorted_ranks as $pegawai ): ?>
+				<?php foreach($sorted as $pegawai ): ?>
 					<tr>
 						<td><?php echo $pegawai['nomer']; ?></td>
 						<td><?php echo round($pegawai['nilai'], $digit); ?></td>											
@@ -246,8 +231,8 @@ endforeach;
 		
 	</div>
 
-</div><!-- .container -->
-</div><!-- .main-content-row -->
+</div>
+</div>
 
 <?php
 require_once('template-parts/footer.php');

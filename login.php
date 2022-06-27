@@ -1,4 +1,4 @@
-<?php require_once('includes/init.php'); ?>
+<?php require_once('includes/include.php'); ?>
 
 <?php
 $errors = array();
