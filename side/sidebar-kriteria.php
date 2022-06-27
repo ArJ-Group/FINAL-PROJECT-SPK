@@ -14,8 +14,8 @@
 <aside class="sidebar">
 	<div class="widget">
 		<ul>
-			<li><a href="../pages/kriteria/list-kriteria.php">List Kriteria</a></li>
-			<li><a href="../pages/kriteria/tambah-kriteria.php">Tambah Kriteria</a></li>
+			<li><a href="../../pages/kriteria/list-kriteria.php">List Kriteria</a></li>
+			<li><a href="../../pages/kriteria/tambah-kriteria.php">Tambah Kriteria</a></li>
 		</ul>
 	</div>
 </aside>

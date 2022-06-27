@@ -34,31 +34,31 @@
 						<ul class="sf-menu">
 							<?php $user_role = get_role(); ?>
 							<?php if ($user_role == 'admin') : ?>
-								<li><a href="../pages/user/list-user.php">User</a>
+								<li><a href="../../pages/user/list-user.php">User</a>
 									<ul>
-										<li><a href="../pages/user/list-user.php">List User</a></li>
-										<li><a href="../pages/user/tambah-user.php">Tambah User</a></li>
+										<li><a href="../../pages/user/list-user.php">List User</a></li>
+										<li><a href="../../pages/user/tambah-user.php">Tambah User</a></li>
 									</ul>
 								</li>
-								<li><a href="../pages/kriteria/list-kriteria.php">Kriteria</a>
+								<li><a href="../../pages/kriteria/list-kriteria.php">Kriteria</a>
 									<ul>
-										<li><a href="../pages/kriteria/list-kriteria.php">List Kriteria</a></li>
-										<li><a href="../pages/kriteria/tambah-kriteria.php">Tambah Kriteria</a></li>
+										<li><a href="../../pages/kriteria/list-kriteria.php">List Kriteria</a></li>
+										<li><a href="../../pages/kriteria/tambah-kriteria.php">Tambah Kriteria</a></li>
 									</ul>
 								</li>
 							<?php endif; ?>
 							<?php if ($user_role == 'admin' || $user_role == 'petugas') : ?>
-								<li><a href="../pages/pegawai/list-pegawai.php">Pegawai</a>
+								<li><a href="../../pages/pegawai/list-pegawai.php">Pegawai</a>
 									<ul>
 										<li><a href="list-pegawai.php">List Pegawai</a></li>
 										<li><a href="tambah-pegawai.php">Tambah Pegawai</a></li>
 									</ul>
 								</li>
 							<?php endif; ?>
-							<li><a href="../pages/ranking/topsis.php">Ranking</a>
+							<li><a href="../../pages/ranking/topsis.php">Ranking</a>
 								<ul>
-									<li><a href="../pages/ranking/topsis.php">Topsis</a></li>
-									<li><a href="../pages/ranking/saw.php">SAW</a></li>
+									<li><a href="../../pages/ranking/topsis.php">Topsis</a></li>
+									<li><a href="../../pages/ranking/saw.php">SAW</a></li>
 								</ul>
 							</li>
 						</ul>
@@ -66,9 +66,9 @@
 
 					<div id="header-right">
 						<?php if (isset($_SESSION['user_id'])) : ?>
-							<a href="../pages/logreg/logout.php" class="button">Log Out</a>
+							<a href="../../pages/logreg/logout.php" class="button">Log Out</a>
 						<?php else : ?>
-							<a href="../pages/logreg/login.php" class="button">Log In</a>
+							<a href="../../pages/logreg/login.php" class="button">Log In</a>
 						<?php endif; ?>
 					</div>
 				</div>

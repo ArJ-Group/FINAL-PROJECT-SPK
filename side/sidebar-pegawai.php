@@ -14,8 +14,8 @@
 <aside class="sidebar">
 	<div class="widget">
 		<ul>
-			<li><a href="../pages/pegawai/list-pegawai.php"><span class="fa fa-bars"></span> List Pegawai</a></li>
-			<li><a href="../pages/pegawai/tambah-pegawai.php"><span class="fa fa-plus"></span> Tambah Pegawai</a></li>
+			<li><a href="../../pages/pegawai/list-pegawai.php"><span class="fa fa-bars"></span> List Pegawai</a></li>
+			<li><a href="../../pages/pegawai/tambah-pegawai.php"><span class="fa fa-plus"></span> Tambah Pegawai</a></li>
 		</ul>
 	</div>
 </aside>
