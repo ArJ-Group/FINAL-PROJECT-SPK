@@ -82,22 +82,22 @@ foreach($sub_crite as $kriteria):
 	$nilai_min = min($Cal[$id_kriteria]);
 	
 	if($type_kriteria == 'benefit'):
-		$s_i_p = $nilai_max;
-		$s_i_n = $nilai_min;
+		$ip = $nilai_max;
+		$in = $nilai_min;
 	elseif($type_kriteria == 'cost'):
-		$s_i_p = $nilai_min;
-		$s_i_n = $nilai_max;
+		$ip = $nilai_min;
+		$in = $nilai_max;
 	endif;
 	
-	$S_plus[$id_kriteria] = $s_i_p;
-	$S_Min[$id_kriteria] = $s_i_n;
+	$S_plus[$id_kriteria] = $ip;
+	$S_Min[$id_kriteria] = $in;
 
 endforeach;
 
 
 
-$jarak_ideal_positif = array();
-$jarak_ideal_negatif = array();
+$PidealS = array();
+$NidealS = array();
 foreach($pegawais as $pegawai):
 
 	$id_pegawai = $pegawai['id_pegawai'];		
@@ -120,8 +120,8 @@ foreach($pegawais as $pegawai):
 	$sqrt_jin = sqrt($jumlah_kuadrat_jin);
 	
 
-	$jarak_ideal_positif[$id_pegawai] = $sqrt_jip;
-	$jarak_ideal_negatif[$id_pegawai] = $sqrt_jin;
+	$PidealS[$id_pegawai] = $sqrt_jip;
+	$NidealS[$id_pegawai] = $sqrt_jin;
 	
 endforeach;
 
@@ -129,8 +129,8 @@ endforeach;
 $ranks = array();
 foreach($pegawais as $pegawai):
 
-	$s_negatif = $jarak_ideal_negatif[$pegawai['id_pegawai']];
-	$s_positif = $jarak_ideal_positif[$pegawai['id_pegawai']];	
+	$s_negatif = $NidealS[$pegawai['id_pegawai']];
+	$s_positif = $PidealS[$pegawai['id_pegawai']];	
 	
 	$nilai_v = $s_negatif / ($s_positif + $s_negatif);
 	
@@ -351,7 +351,7 @@ endforeach;
 						<td>
 							<?php								
 							$id_pegawai = $pegawai['id_pegawai'];
-							echo round($jarak_ideal_positif[$id_pegawai], $numberr);
+							echo round($PidealS[$id_pegawai], $numberr);
 							?>
 						</td>
 					</tr>
@@ -375,7 +375,7 @@ endforeach;
 						<td>
 							<?php								
 							$id_pegawai = $pegawai['id_pegawai'];
-							echo round($jarak_ideal_negatif[$id_pegawai], $numberr);
+							echo round($NidealS[$id_pegawai], $numberr);
 							?>
 						</td>
 					</tr>
