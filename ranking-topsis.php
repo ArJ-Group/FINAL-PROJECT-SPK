@@ -25,7 +25,7 @@ $pegawais = $query2->fetchAll();
 
 
 
-$matriks_x = array();
+$getCalculate = array();
 foreach($kriterias as $kriteria):
 	foreach($pegawais as $pegawai):
 		
@@ -42,28 +42,26 @@ foreach($kriterias as $kriteria):
 		$query3->setFetchMode(PDO::FETCH_ASSOC);
 		if($nilai_pegawai = $query3->fetch()) {
 		
-			$matriks_x[$id_kriteria][$id_pegawai] = $nilai_pegawai['nilai'];
+			$getCalculate[$id_kriteria][$id_pegawai] = $nilai_pegawai['nilai'];
 		} else {			
-			$matriks_x[$id_kriteria][$id_pegawai] = 0;
+			$getCalculate[$id_kriteria][$id_pegawai] = 0;
 		}
 
 	endforeach;
 endforeach;
 
 
-$matriks_r = array();
-foreach($matriks_x as $id_kriteria => $nilai_pegawais):
+$ResultCal = array();
+foreach($getCalculate as $id_kriteria => $nilai_pegawais):
 	
-
 	$jumlah_kuadrat = 0;
 	foreach($nilai_pegawais as $nilai_pegawai):
 		$jumlah_kuadrat += pow($nilai_pegawai, 2);
 	endforeach;
-	$akar_kuadrat = sqrt($jumlah_kuadrat);
+	$sqrt = sqrt($jumlah_kuadrat);
 	
-
 	foreach($nilai_pegawais as $id_pegawai => $nilai_pegawai):
-		$matriks_r[$id_kriteria][$id_pegawai] = $nilai_pegawai / $akar_kuadrat;
+		$ResultCal[$id_kriteria][$id_pegawai] = $nilai_pegawai / $sqrt;
 	endforeach;
 	
 endforeach;
@@ -78,7 +76,7 @@ foreach($kriterias as $kriteria):
 		$id_pegawai = $pegawai['id_pegawai'];
 		$id_kriteria = $kriteria['id_kriteria'];
 		
-		$nilai_r = $matriks_r[$id_kriteria][$id_pegawai];
+		$nilai_r = $ResultCal[$id_kriteria][$id_pegawai];
 		$matriks_y[$id_kriteria][$id_pegawai] = $bobot * $nilai_r;
 
 	endforeach;
@@ -131,12 +129,12 @@ foreach($pegawais as $pegawai):
 	endforeach;
 	
 
-	$akar_kuadrat_jip = sqrt($jumlah_kuadrat_jip);
-	$akar_kuadrat_jin = sqrt($jumlah_kuadrat_jin);
+	$sqrt_jip = sqrt($jumlah_kuadrat_jip);
+	$sqrt_jin = sqrt($jumlah_kuadrat_jin);
 	
 
-	$jarak_ideal_positif[$id_pegawai] = $akar_kuadrat_jip;
-	$jarak_ideal_negatif[$id_pegawai] = $akar_kuadrat_jin;
+	$jarak_ideal_positif[$id_pegawai] = $sqrt_jip;
+	$jarak_ideal_negatif[$id_pegawai] = $sqrt_jin;
 	
 endforeach;
 
@@ -198,7 +196,7 @@ endforeach;
 							$id_pegawai = $pegawai['id_pegawai'];
 							$id_kriteria = $kriteria['id_kriteria'];
 							echo '<td>';
-							echo $matriks_x[$id_kriteria][$id_pegawai];
+							echo $getCalculate[$id_kriteria][$id_pegawai];
 							echo '</td>';
 						endforeach;
 						?>
@@ -259,7 +257,7 @@ endforeach;
 							$id_pegawai = $pegawai['id_pegawai'];
 							$id_kriteria = $kriteria['id_kriteria'];
 							echo '<td>';
-							echo round($matriks_r[$id_kriteria][$id_pegawai], $digit);
+							echo round($ResultCal[$id_kriteria][$id_pegawai], $digit);
 							echo '</td>';
 						endforeach;
 						?>
