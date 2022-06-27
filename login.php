@@ -30,7 +30,7 @@ if (isset($_POST['submit'])) :
 				$_SESSION["user_id"] = $user["id_user"];
 				$_SESSION["username"] = $user["username"];
 				$_SESSION["role"] = $user["role"];
-				redirect_to("indexx.php?status=sukses-login");
+				redirect_to("index.php?status=sukses-login");
 			} else {
 				$errors[] = 'Maaf, anda salah memasukkan username / password';
 			}
