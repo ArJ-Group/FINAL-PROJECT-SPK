@@ -90,7 +90,7 @@ endforeach;
 		<h1><?php echo $get_title; ?></h1>
 		
 			
-		<h3>Step 1: Matriks Keputusan (X)</h3>
+		<h3> Matriks Keputusan</h3>
 		<table class="pure-table pure-table-striped">
 			<thead>
 				<tr class="super-top">
@@ -122,11 +122,11 @@ endforeach;
 		</table>
 		
 		
-		<h3>Step 2: Bobot Preferensi </h3>			
+		<h3> Bobot Preferensi </h3>			
 		<table class="pure-table pure-table-striped">
 			<thead>
 				<tr>
-					<th>Nama Kriteria</th>
+					<th>Kriteria</th>
 					<th>Type</th>
 					<th>Bobot</th>						
 				</tr>
@@ -151,7 +151,7 @@ endforeach;
 		</table>
 		
 		
-		<h3>Step 3: Matriks Ternormalisasi (R)</h3>			
+		<h3> Matriks Ternormalisasi </h3>			
 		<table class="pure-table pure-table-striped">
 			<thead>
 				<tr class="super-top">
@@ -197,7 +197,7 @@ endforeach;
 			array_multisort($nilai, SORT_DESC, $nomer, SORT_ASC, $sorted);
 		endif;
 		?>		
-		<h3>Step 4: Perangkingan (V)</h3>			
+		<h3> Perangkingan </h3>			
 		<table class="pure-table pure-table-striped">
 			<thead>					
 				<tr>
