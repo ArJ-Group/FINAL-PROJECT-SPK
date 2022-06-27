@@ -6,8 +6,8 @@
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
 	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, shrink-to-fit=no">
 	<title><?php
-			if (isset($judul_page)) {
-				echo $judul_page;
+			if (isset($get_title)) {
+				echo $get_title;
 			}
 			?></title>
 	<link rel="icon" type="image/x-icon" href="public/stylesheets/new/assets/img/favicon.ico" />

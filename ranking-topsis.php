@@ -1,32 +1,53 @@
 <?php
 
-
 require_once('condb/init.php');
 
-
-$judul_page = 'Perankingan Menggunakan Metode TOPSIS';
+$get_title = 'Perankingan Menggunakan Metode TOPSIS';
+$numberr = 4;
 require_once('side/header.php');
-
-
-$digit = 4;
-
-
-$qry = $pdo->prepare('SELECT id_kriteria, nama, type, bobot
-	FROM kriteria ORDER BY urutan_order ASC');
+$qry = $pdo->prepare('SELECT id_kriteria, nama, type, bobot	FROM kriteria ORDER BY urutan_order ASC');
 $qry->execute();
 $qry->setFetchMode(PDO::FETCH_ASSOC);
-$kriterias = $qry->fetchAll();
-
-
+$sub_crite = $qry->fetchAll();
 $qry2 = $pdo->prepare('SELECT id_pegawai, nomer FROM pegawai');
 $qry2->execute();			
 $qry2->setFetchMode(PDO::FETCH_ASSOC);
 $pegawais = $qry2->fetchAll();
 
+$ResultCal = array();
+foreach($getCalculate as $id_kriteria => $nilai_pegawais):
+	
+	$jumlah_kuadrat = 0;
+	foreach($nilai_pegawais as $nilai_pegawai):
+		$jumlah_kuadrat += pow($nilai_pegawai, 2);
+	endforeach;
+	$sqrt = sqrt($jumlah_kuadrat);
+	
+	foreach($nilai_pegawais as $id_pegawai => $nilai_pegawai):
+		$ResultCal[$id_kriteria][$id_pegawai] = $nilai_pegawai / $sqrt;
+	endforeach;
+	
+endforeach;
+
+
+
+$Cal = array();
+foreach($sub_crite as $kriteria):
+	foreach($pegawais as $pegawai):
+		
+		$bobot = $kriteria['bobot'];
+		$id_pegawai = $pegawai['id_pegawai'];
+		$id_kriteria = $kriteria['id_kriteria'];
+		
+		$nilai_r = $ResultCal[$id_kriteria][$id_pegawai];
+		$Cal[$id_kriteria][$id_pegawai] = $bobot * $nilai_r;
+
+	endforeach;
+endforeach;
 
 
 $getCalculate = array();
-foreach($kriterias as $kriteria):
+foreach($sub_crite as $kriteria):
 	foreach($pegawais as $pegawai):
 		
 		$id_pegawai = $pegawai['id_pegawai'];
@@ -50,67 +71,33 @@ foreach($kriterias as $kriteria):
 	endforeach;
 endforeach;
 
-
-$ResultCal = array();
-foreach($getCalculate as $id_kriteria => $nilai_pegawais):
-	
-	$jumlah_kuadrat = 0;
-	foreach($nilai_pegawais as $nilai_pegawai):
-		$jumlah_kuadrat += pow($nilai_pegawai, 2);
-	endforeach;
-	$sqrt = sqrt($jumlah_kuadrat);
-	
-	foreach($nilai_pegawais as $id_pegawai => $nilai_pegawai):
-		$ResultCal[$id_kriteria][$id_pegawai] = $nilai_pegawai / $sqrt;
-	endforeach;
-	
-endforeach;
-
-
-
-$matriks_y = array();
-foreach($kriterias as $kriteria):
-	foreach($pegawais as $pegawai):
-		
-		$bobot = $kriteria['bobot'];
-		$id_pegawai = $pegawai['id_pegawai'];
-		$id_kriteria = $kriteria['id_kriteria'];
-		
-		$nilai_r = $ResultCal[$id_kriteria][$id_pegawai];
-		$matriks_y[$id_kriteria][$id_pegawai] = $bobot * $nilai_r;
-
-	endforeach;
-endforeach;
-
-
-
-$solusi_ideal_positif = array();
-$solusi_ideal_negatif = array();
-foreach($kriterias as $kriteria):
+$S_plus = array();
+$S_Min = array();
+foreach($sub_crite as $kriteria):
 
 	$id_kriteria = $kriteria['id_kriteria'];
 	$type_kriteria = $kriteria['type'];
 	
-	$nilai_max = max($matriks_y[$id_kriteria]);
-	$nilai_min = min($matriks_y[$id_kriteria]);
+	$nilai_max = max($Cal[$id_kriteria]);
+	$nilai_min = min($Cal[$id_kriteria]);
 	
 	if($type_kriteria == 'benefit'):
-		$s_i_p = $nilai_max;
-		$s_i_n = $nilai_min;
+		$ip = $nilai_max;
+		$in = $nilai_min;
 	elseif($type_kriteria == 'cost'):
-		$s_i_p = $nilai_min;
-		$s_i_n = $nilai_max;
+		$ip = $nilai_min;
+		$in = $nilai_max;
 	endif;
 	
-	$solusi_ideal_positif[$id_kriteria] = $s_i_p;
-	$solusi_ideal_negatif[$id_kriteria] = $s_i_n;
+	$S_plus[$id_kriteria] = $ip;
+	$S_Min[$id_kriteria] = $in;
 
 endforeach;
 
 
 
-$jarak_ideal_positif = array();
-$jarak_ideal_negatif = array();
+$PidealS = array();
+$NidealS = array();
 foreach($pegawais as $pegawai):
 
 	$id_pegawai = $pegawai['id_pegawai'];		
@@ -118,10 +105,10 @@ foreach($pegawais as $pegawai):
 	$jumlah_kuadrat_jin = 0;
 	
 	// Mencari penjumlahan kuadrat
-	foreach($matriks_y as $id_kriteria => $nilai_pegawais):
+	foreach($Cal as $id_kriteria => $nilai_pegawais):
 		
-		$hsl_pengurangan_jip = $nilai_pegawais[$id_pegawai] - $solusi_ideal_positif[$id_kriteria];
-		$hsl_pengurangan_jin = $nilai_pegawais[$id_pegawai] - $solusi_ideal_negatif[$id_kriteria];
+		$hsl_pengurangan_jip = $nilai_pegawais[$id_pegawai] - $S_plus[$id_kriteria];
+		$hsl_pengurangan_jin = $nilai_pegawais[$id_pegawai] - $S_Min[$id_kriteria];
 		
 		$jumlah_kuadrat_jip += pow($hsl_pengurangan_jip, 2);
 		$jumlah_kuadrat_jin += pow($hsl_pengurangan_jin, 2);
@@ -133,8 +120,8 @@ foreach($pegawais as $pegawai):
 	$sqrt_jin = sqrt($jumlah_kuadrat_jin);
 	
 
-	$jarak_ideal_positif[$id_pegawai] = $sqrt_jip;
-	$jarak_ideal_negatif[$id_pegawai] = $sqrt_jin;
+	$PidealS[$id_pegawai] = $sqrt_jip;
+	$NidealS[$id_pegawai] = $sqrt_jin;
 	
 endforeach;
 
@@ -142,8 +129,8 @@ endforeach;
 $ranks = array();
 foreach($pegawais as $pegawai):
 
-	$s_negatif = $jarak_ideal_negatif[$pegawai['id_pegawai']];
-	$s_positif = $jarak_ideal_positif[$pegawai['id_pegawai']];	
+	$s_negatif = $NidealS[$pegawai['id_pegawai']];
+	$s_positif = $PidealS[$pegawai['id_pegawai']];	
 	
 	$nilai_v = $s_negatif / ($s_positif + $s_negatif);
 	
@@ -171,7 +158,7 @@ endforeach;
 
 		<div class="main-content main-content-full the-content">
 
-			<h1><?php echo $judul_page; ?></h1>
+			<h1><?php echo $get_title; ?></h1>
 
 
 			<h3>Step 1: Matriks Keputusan (X)</h3>
@@ -179,10 +166,10 @@ endforeach;
 				<thead>
 					<tr class="super-top">
 						<th rowspan="2" class="super-top-left">No. pegawai</th>
-						<th colspan="<?php echo count($kriterias); ?>">Kriteria</th>
+						<th colspan="<?php echo count($sub_crite); ?>">Kriteria</th>
 					</tr>
 					<tr>
-						<?php foreach($kriterias as $kriteria ): ?>
+						<?php foreach($sub_crite as $kriteria ): ?>
 						<th><?php echo $kriteria['nama']; ?></th>
 						<?php endforeach; ?>
 					</tr>
@@ -192,7 +179,7 @@ endforeach;
 					<tr>
 						<td><?php echo $pegawai['nomer']; ?></td>
 						<?php						
-						foreach($kriterias as $kriteria):
+						foreach($sub_crite as $kriteria):
 							$id_pegawai = $pegawai['id_pegawai'];
 							$id_kriteria = $kriteria['id_kriteria'];
 							echo '<td>';
@@ -212,11 +199,11 @@ endforeach;
 					<tr>
 						<th>Nama Kriteria</th>
 						<th>Type</th>
-						<th>Bobot (W)</th>
+						<th>Bobot</th>
 					</tr>
 				</thead>
 				<tbody>
-					<?php foreach($kriterias as $hasil): ?>
+					<?php foreach($sub_crite as $hasil): ?>
 					<tr>
 						<td><?php echo $hasil['nama']; ?></td>
 						<td>
@@ -240,10 +227,10 @@ endforeach;
 				<thead>
 					<tr class="super-top">
 						<th rowspan="2" class="super-top-left">No. pegawai</th>
-						<th colspan="<?php echo count($kriterias); ?>">Kriteria</th>
+						<th colspan="<?php echo count($sub_crite); ?>">Kriteria</th>
 					</tr>
 					<tr>
-						<?php foreach($kriterias as $kriteria ): ?>
+						<?php foreach($sub_crite as $kriteria ): ?>
 						<th><?php echo $kriteria['nama']; ?></th>
 						<?php endforeach; ?>
 					</tr>
@@ -253,11 +240,11 @@ endforeach;
 					<tr>
 						<td><?php echo $pegawai['nomer']; ?></td>
 						<?php						
-						foreach($kriterias as $kriteria):
+						foreach($sub_crite as $kriteria):
 							$id_pegawai = $pegawai['id_pegawai'];
 							$id_kriteria = $kriteria['id_kriteria'];
 							echo '<td>';
-							echo round($ResultCal[$id_kriteria][$id_pegawai], $digit);
+							echo round($ResultCal[$id_kriteria][$id_pegawai], $numberr);
 							echo '</td>';
 						endforeach;
 						?>
@@ -273,10 +260,10 @@ endforeach;
 				<thead>
 					<tr class="super-top">
 						<th rowspan="2" class="super-top-left">No. pegawai</th>
-						<th colspan="<?php echo count($kriterias); ?>">Kriteria</th>
+						<th colspan="<?php echo count($sub_crite); ?>">Kriteria</th>
 					</tr>
 					<tr>
-						<?php foreach($kriterias as $kriteria ): ?>
+						<?php foreach($sub_crite as $kriteria ): ?>
 						<th><?php echo $kriteria['nama']; ?></th>
 						<?php endforeach; ?>
 					</tr>
@@ -286,11 +273,11 @@ endforeach;
 					<tr>
 						<td><?php echo $pegawai['nomer']; ?></td>
 						<?php						
-						foreach($kriterias as $kriteria):
+						foreach($sub_crite as $kriteria):
 							$id_pegawai = $pegawai['id_pegawai'];
 							$id_kriteria = $kriteria['id_kriteria'];
 							echo '<td>';
-							echo round($matriks_y[$id_kriteria][$id_pegawai], $digit);
+							echo round($Cal[$id_kriteria][$id_pegawai], $numberr);
 							echo '</td>';
 						endforeach;
 						?>
@@ -305,18 +292,18 @@ endforeach;
 			<table class="pure-table pure-table-striped">
 				<thead>
 					<tr>
-						<?php foreach($kriterias as $kriteria ): ?>
+						<?php foreach($sub_crite as $kriteria ): ?>
 						<th><?php echo $kriteria['nama']; ?></th>
 						<?php endforeach; ?>
 					</tr>
 				</thead>
 				<tbody>
 					<tr>
-						<?php foreach($kriterias as $kriteria ): ?>
+						<?php foreach($sub_crite as $kriteria ): ?>
 						<td>
 							<?php
 							$id_kriteria = $kriteria['id_kriteria'];							
-							echo round($solusi_ideal_positif[$id_kriteria], $digit);
+							echo round($S_plus[$id_kriteria], $numberr);
 							?>
 						</td>
 						<?php endforeach; ?>
@@ -329,18 +316,18 @@ endforeach;
 			<table class="pure-table pure-table-striped">
 				<thead>
 					<tr>
-						<?php foreach($kriterias as $kriteria ): ?>
+						<?php foreach($sub_crite as $kriteria ): ?>
 						<th><?php echo $kriteria['nama']; ?></th>
 						<?php endforeach; ?>
 					</tr>
 				</thead>
 				<tbody>
 					<tr>
-						<?php foreach($kriterias as $kriteria ): ?>
+						<?php foreach($sub_crite as $kriteria ): ?>
 						<td>
 							<?php
 							$id_kriteria = $kriteria['id_kriteria'];							
-							echo round($solusi_ideal_negatif[$id_kriteria], $digit);
+							echo round($S_Min[$id_kriteria], $numberr);
 							?>
 						</td>
 						<?php endforeach; ?>
@@ -364,7 +351,7 @@ endforeach;
 						<td>
 							<?php								
 							$id_pegawai = $pegawai['id_pegawai'];
-							echo round($jarak_ideal_positif[$id_pegawai], $digit);
+							echo round($PidealS[$id_pegawai], $numberr);
 							?>
 						</td>
 					</tr>
@@ -388,7 +375,7 @@ endforeach;
 						<td>
 							<?php								
 							$id_pegawai = $pegawai['id_pegawai'];
-							echo round($jarak_ideal_negatif[$id_pegawai], $digit);
+							echo round($NidealS[$id_pegawai], $numberr);
 							?>
 						</td>
 					</tr>
@@ -422,7 +409,7 @@ endforeach;
 					<?php foreach($sorted as $pegawai ): ?>
 					<tr>
 						<td><?php echo $pegawai['nomer']; ?></td>
-						<td><?php echo round($pegawai['nilai'], $digit); ?></td>
+						<td><?php echo round($pegawai['nilai'], $numberr); ?></td>
 					</tr>
 					<?php endforeach; ?>
 				</tbody>

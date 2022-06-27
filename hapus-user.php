@@ -21,7 +21,7 @@ if(!$id_user) {
 ?>
 
 <?php
-$judul_page = 'Hapus User';
+$get_title = 'Hapus User';
 require_once('side/header.php');
 ?>
 
@@ -31,7 +31,7 @@ require_once('side/header.php');
 		<?php include_once('side/sidebar-user.php'); ?>
 	
 		<div class="main-content the-content">
-			<h1><?php echo $judul_page; ?></h1>
+			<h1><?php echo $get_title; ?></h1>
 			
 			<?php if($ada_error): ?>
 			

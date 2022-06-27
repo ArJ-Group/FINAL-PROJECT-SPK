@@ -44,7 +44,7 @@ endif;
 ?>
 
 <?php
-$judul_page = 'Log in';
+$get_title = 'Log in';
 require_once('side/header.php');
 ?>
 

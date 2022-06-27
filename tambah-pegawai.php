@@ -50,7 +50,7 @@ endif;
 ?>
 
 <?php
-$judul_page = 'Tambah pegawai';
+$get_title = 'Tambah pegawai';
 require_once('side/header.php');
 ?>
 

@@ -20,7 +20,7 @@ if(!$id_pegawai) {
 ?>
 
 <?php
-$judul_page = 'Detail pegawai';
+$get_title = 'Detail pegawai';
 require_once('side/header.php');
 ?>
 
@@ -30,7 +30,7 @@ require_once('side/header.php');
 		<?php include_once('side/sidebar-pegawai.php'); ?>
 	
 		<div class="main-content the-content">
-			<h1><?php echo $judul_page; ?></h1>
+			<h1><?php echo $get_title; ?></h1>
 			
 			<?php if($ada_error): ?>
 			
@@ -58,21 +58,21 @@ require_once('side/header.php');
 					'id_pegawai' => $id_pegawai
 				));
 				$qry2->setFetchMode(PDO::FETCH_ASSOC);
-				$kriterias = $qry2->fetchAll();
-				if(!empty($kriterias)):
+				$sub_crite = $qry2->fetchAll();
+				if(!empty($sub_crite)):
 				?>
 					<h3>Nilai Kriteria</h3>
 					<table class="pure-table">
 						<thead>
 							<tr>
-								<?php foreach($kriterias as $kriteria ): ?>
+								<?php foreach($sub_crite as $kriteria ): ?>
 									<th><?php echo $kriteria['nama']; ?></th>
 								<?php endforeach; ?>
 							</tr>
 						</thead>
 						<tbody>
 							<tr>
-								<?php foreach($kriterias as $kriteria ): ?>
+								<?php foreach($sub_crite as $kriteria ): ?>
 									<th><?php echo ($kriteria['nilai']) ? $kriteria['nilai'] : 0; ?></th>
 								<?php endforeach; ?>
 							</tr>

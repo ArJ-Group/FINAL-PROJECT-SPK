@@ -82,7 +82,7 @@ endif;
 ?>
 
 <?php
-$judul_page = 'Edit pegawai';
+$get_title = 'Edit pegawai';
 require_once('side/header.php');
 ?>
 

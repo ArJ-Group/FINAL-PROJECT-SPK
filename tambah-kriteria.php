@@ -70,7 +70,7 @@ endif;
 ?>
 
 <?php
-$judul_page = 'Tambah User';
+$get_title = 'Tambah User';
 require_once('side/header.php');
 ?>
 
