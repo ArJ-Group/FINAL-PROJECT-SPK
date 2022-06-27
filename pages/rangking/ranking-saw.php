@@ -8,31 +8,12 @@ $qry = $pdo->prepare('SELECT id_kriteria, nama, type, bobot
 $qry->execute();
 $qry->setFetchMode(PDO::FETCH_ASSOC);
 $sub_crite = $qry->fetchAll();
-<<<<<<< HEAD
-
-
-<<<<<<< HEAD
-$qry2 = $pdo->prepare('SELECT id_pegawai, nomer FROM pegawai');
-$qry2->execute();			
-$qry2->setFetchMode(PDO::FETCH_ASSOC);
-$pegawais = $qry2->fetchAll();
-=======
-/* ---------------------------------------------
- * Fetch semua pegawai (alternatif)
- * ------------------------------------------- */
-$query2 = $pdo->prepare('SELECT id_pegawai, nomer FROM pegawai');
-$query2->execute();			
-$query2->setFetchMode(PDO::FETCH_ASSOC);
-$Employe = $query2->fetchAll();
->>>>>>> d7545b274c85df9748b5b4175e17673b2a62d6d0
-=======
 
 
 $qry2 = $pdo->prepare('SELECT id_pegawai, nomer FROM pegawai');
 $qry2->execute();			
 $qry2->setFetchMode(PDO::FETCH_ASSOC);
 $Employe = $qry2->fetchAll();
->>>>>>> 3e7139f0e4dba4691f7d43187ec95ec7f8e7ad8b
 
 
 $getCalculate = array();
@@ -61,22 +42,8 @@ foreach($sub_crite as $kriteria):
 
 	endforeach;
 endforeach;
-<<<<<<< HEAD
-<<<<<<< HEAD
-$ResultCal = array();
-foreach($getCalculate as $id_kriteria => $nilai_pegawais):
-=======
-
-/* >>> STEP 3 ===================================
- * Matriks Ternormalisasi (R)
- * ------------------------------------------- */
-$matriks_r = array();
-foreach($matriks_x as $id_kriteria => $nilai_Employe):
->>>>>>> d7545b274c85df9748b5b4175e17673b2a62d6d0
-=======
 $ResultCal = array();
 foreach($getCalculate as $id_kriteria => $nilai_Employe):
->>>>>>> 3e7139f0e4dba4691f7d43187ec95ec7f8e7ad8b
 	
 	$type = $list_kriteria[$id_kriteria]['type'];
 	foreach($nilai_Employe as $id_alternatif => $nilai) {
@@ -92,11 +59,7 @@ foreach($getCalculate as $id_kriteria => $nilai_Employe):
 endforeach;
 
 
-<<<<<<< HEAD
-$ranks = array();
-=======
 $torank = array();
->>>>>>> 3e7139f0e4dba4691f7d43187ec95ec7f8e7ad8b
 foreach($Employe as $pegawai):
 
 	$total_nilai = 0;
@@ -127,11 +90,7 @@ endforeach;
 		<h1><?php echo $get_title; ?></h1>
 		
 			
-<<<<<<< HEAD
-		<h3>Step 1: Matriks Keputusan (X)</h3>
-=======
 		<h3> Matriks Keputusan</h3>
->>>>>>> 3e7139f0e4dba4691f7d43187ec95ec7f8e7ad8b
 		<table class="pure-table pure-table-striped">
 			<thead>
 				<tr class="super-top">
@@ -163,15 +122,7 @@ endforeach;
 		</table>
 		
 		
-<<<<<<< HEAD
-<<<<<<< HEAD
-		<h3>Step 2: Bobot Preferensi (W)</h3>			
-=======
-		<h3>Step 2: Bobot Preferensi </h3>			
->>>>>>> d7545b274c85df9748b5b4175e17673b2a62d6d0
-=======
 		<h3> Bobot Preferensi </h3>			
->>>>>>> 3e7139f0e4dba4691f7d43187ec95ec7f8e7ad8b
 		<table class="pure-table pure-table-striped">
 			<thead>
 				<tr>
@@ -200,11 +151,7 @@ endforeach;
 		</table>
 		
 		
-<<<<<<< HEAD
-		<h3>Step 3: Matriks Ternormalisasi (R)</h3>			
-=======
 		<h3> Matriks Ternormalisasi </h3>			
->>>>>>> 3e7139f0e4dba4691f7d43187ec95ec7f8e7ad8b
 		<table class="pure-table pure-table-striped">
 			<thead>
 				<tr class="super-top">
@@ -238,11 +185,7 @@ endforeach;
 		
 		
 		<?php		
-<<<<<<< HEAD
-		$sorted = $ranks;		
-=======
 		$sorted = $torank;		
->>>>>>> 3e7139f0e4dba4691f7d43187ec95ec7f8e7ad8b
 	
 		if(function_exists('array_multisort')):
 			$nomer = array();
