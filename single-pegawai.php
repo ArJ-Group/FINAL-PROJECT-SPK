@@ -1,4 +1,4 @@
-<?php require_once('includes/include.php'); ?>
+<?php require_once('condb/include.php'); ?>
 
 <?php
 $ada_error = false;

@@ -1,4 +1,4 @@
-<?php require_once('includes/include.php'); ?>
+<?php require_once('condb/include.php'); ?>
 <?php cek_login($role = array(1)); ?>
 
 <?php

@@ -1,5 +1,5 @@
 <?php
-require_once('includes/init.php');
+require_once('condb/init.php');
 $judul_page = 'Perankingan Menggunakan Metode SAW';
 require_once('side/header.php');
 
