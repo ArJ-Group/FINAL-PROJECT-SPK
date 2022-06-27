@@ -1,13 +1,13 @@
 <?php
+$numberr = 4;
 require_once('condb/init.php');
-$judul_page = 'Perankingan Menggunakan Metode SAW';
+$get_title = 'Perankingan Menggunakan Metode SAW';
 require_once('side/header.php');
-$digit = 4;
 $qry = $pdo->prepare('SELECT id_kriteria, nama, type, bobot
 	FROM kriteria ORDER BY urutan_order ASC');
 $qry->execute();
 $qry->setFetchMode(PDO::FETCH_ASSOC);
-$kriterias = $qry->fetchAll();
+$sub_crite = $qry->fetchAll();
 
 
 $qry2 = $pdo->prepare('SELECT id_pegawai, nomer FROM pegawai');
@@ -18,7 +18,7 @@ $pegawais = $qry2->fetchAll();
 
 $getCalculate = array();
 $list_kriteria = array();
-foreach($kriterias as $kriteria):
+foreach($sub_crite as $kriteria):
 	$list_kriteria[$kriteria['id_kriteria']] = $kriteria;
 	foreach($pegawais as $pegawai):
 		
@@ -87,7 +87,7 @@ endforeach;
 
 	<div class="main-content main-content-full the-content">
 		
-		<h1><?php echo $judul_page; ?></h1>
+		<h1><?php echo $get_title; ?></h1>
 		
 			
 		<h3>Step 1: Matriks Keputusan (X)</h3>
@@ -95,10 +95,10 @@ endforeach;
 			<thead>
 				<tr class="super-top">
 					<th rowspan="2" class="super-top-left">No. pegawai</th>
-					<th colspan="<?php echo count($kriterias); ?>">Kriteria</th>
+					<th colspan="<?php echo count($sub_crite); ?>">Kriteria</th>
 				</tr>
 				<tr>
-					<?php foreach($kriterias as $kriteria ): ?>
+					<?php foreach($sub_crite as $kriteria ): ?>
 						<th><?php echo $kriteria['nama']; ?></th>
 					<?php endforeach; ?>
 				</tr>
@@ -108,7 +108,7 @@ endforeach;
 					<tr>
 						<td><?php echo $pegawai['nomer']; ?></td>
 						<?php						
-						foreach($kriterias as $kriteria):
+						foreach($sub_crite as $kriteria):
 							$id_pegawai = $pegawai['id_pegawai'];
 							$id_kriteria = $kriteria['id_kriteria'];
 							echo '<td>';
@@ -132,7 +132,7 @@ endforeach;
 				</tr>
 			</thead>
 			<tbody>
-				<?php foreach($kriterias as $hasil): ?>
+				<?php foreach($sub_crite as $hasil): ?>
 					<tr>
 						<td><?php echo $hasil['nama']; ?></td>
 						<td>
@@ -156,10 +156,10 @@ endforeach;
 			<thead>
 				<tr class="super-top">
 					<th rowspan="2" class="super-top-left">No. pegawai</th>
-					<th colspan="<?php echo count($kriterias); ?>">Kriteria</th>
+					<th colspan="<?php echo count($sub_crite); ?>">Kriteria</th>
 				</tr>
 				<tr>
-					<?php foreach($kriterias as $kriteria ): ?>
+					<?php foreach($sub_crite as $kriteria ): ?>
 						<th><?php echo $kriteria['nama']; ?></th>
 					<?php endforeach; ?>
 				</tr>
@@ -169,11 +169,11 @@ endforeach;
 					<tr>
 						<td><?php echo $pegawai['nomer']; ?></td>
 						<?php						
-						foreach($kriterias as $kriteria):
+						foreach($sub_crite as $kriteria):
 							$id_pegawai = $pegawai['id_pegawai'];
 							$id_kriteria = $kriteria['id_kriteria'];
 							echo '<td>';
-							echo round($ResultCal[$id_kriteria][$id_pegawai], $digit);
+							echo round($ResultCal[$id_kriteria][$id_pegawai], $numberr);
 							echo '</td>';
 						endforeach;
 						?>
@@ -209,7 +209,7 @@ endforeach;
 				<?php foreach($sorted as $pegawai ): ?>
 					<tr>
 						<td><?php echo $pegawai['nomer']; ?></td>
-						<td><?php echo round($pegawai['nilai'], $digit); ?></td>											
+						<td><?php echo round($pegawai['nilai'], $numberr); ?></td>											
 					</tr>
 				<?php endforeach; ?>
 			</tbody>

@@ -83,7 +83,7 @@ endif;
 ?>
 
 <?php
-$judul_page = 'Edit User';
+$get_title = 'Edit User';
 require_once('side/header.php');
 ?>
 

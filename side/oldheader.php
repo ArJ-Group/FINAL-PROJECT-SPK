@@ -4,8 +4,8 @@
 	<meta http-equiv="x-ua-compatible" content="ie=edge" />
 	<meta charset="UTF-8" />
 	<title><?php
-			if (isset($judul_page)) {
-				echo $judul_page;
+			if (isset($get_title)) {
+				echo $get_title;
 			}
 			?></title>
 	<meta name="viewport" content="width=device-width, initial-scale=1.0" />

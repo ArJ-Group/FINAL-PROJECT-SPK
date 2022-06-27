@@ -2,7 +2,7 @@
 <?php cek_login($role = array(1, 2)); ?>
 
 <?php
-$judul_page = 'List pegawai';
+$get_title = 'List pegawai';
 require_once('side/header.php');
 ?>
 
@@ -76,7 +76,7 @@ require_once('side/header.php');
 			$qry = $pdo->prepare('SELECT id_kriteria, nama, type, bobot FROM kriteria
 				ORDER BY urutan_order ASC');
 			$qry->execute();			
-			$kriterias = $qry->fetchAll(PDO::FETCH_GROUP|PDO::FETCH_UNIQUE);
+			$sub_crite = $qry->fetchAll(PDO::FETCH_GROUP|PDO::FETCH_UNIQUE);
 			
 			// Fetch semua pegawai
 			$qry2 = $pdo->prepare('SELECT id_pegawai, nomer FROM pegawai');
@@ -90,10 +90,10 @@ require_once('side/header.php');
 				<thead>
 					<tr class="super-top">
 						<th rowspan="2" class="super-top-left">No. Pegawai</th>
-						<th colspan="<?php echo count($kriterias); ?>">Kriteria</th>
+						<th colspan="<?php echo count($sub_crite); ?>">Kriteria</th>
 					</tr>
 					<tr>
-						<?php foreach($kriterias as $kriteria ): ?>
+						<?php foreach($sub_crite as $kriteria ): ?>
 							<th><?php echo $kriteria['nama']; ?></th>
 						<?php endforeach; ?>
 					</tr>
@@ -112,20 +112,20 @@ require_once('side/header.php');
 							$qry3->setFetchMode(PDO::FETCH_ASSOC);
 							$nilais = $qry3->fetchAll(PDO::FETCH_GROUP|PDO::FETCH_UNIQUE);
 							
-							foreach($kriterias as $id_kriteria => $values):
+							foreach($sub_crite as $id_kriteria => $values):
 								echo '<td>';
 								if(isset($nilais[$id_kriteria])) {
 									echo $nilais[$id_kriteria]['nilai'];
-									$kriterias[$id_kriteria]['nilai'][$pegawai['id_pegawai']] = $nilais[$id_kriteria]['nilai'];
+									$sub_crite[$id_kriteria]['nilai'][$pegawai['id_pegawai']] = $nilais[$id_kriteria]['nilai'];
 								} else {
 									echo 0;
-									$kriterias[$id_kriteria]['nilai'][$pegawai['id_pegawai']] = 0;
+									$sub_crite[$id_kriteria]['nilai'][$pegawai['id_pegawai']] = 0;
 								}
 								
-								if(isset($kriterias[$id_kriteria]['tn_kuadrat'])){
-									$kriterias[$id_kriteria]['tn_kuadrat'] += pow($kriterias[$id_kriteria]['nilai'][$pegawai['id_pegawai']], 2);
+								if(isset($sub_crite[$id_kriteria]['tn_kuadrat'])){
+									$sub_crite[$id_kriteria]['tn_kuadrat'] += pow($sub_crite[$id_kriteria]['nilai'][$pegawai['id_pegawai']], 2);
 								} else {
-									$kriterias[$id_kriteria]['tn_kuadrat'] = pow($kriterias[$id_kriteria]['nilai'][$pegawai['id_pegawai']], 2);
+									$sub_crite[$id_kriteria]['tn_kuadrat'] = pow($sub_crite[$id_kriteria]['nilai'][$pegawai['id_pegawai']], 2);
 								}
 								echo '</td>';
 							endforeach;

@@ -133,7 +133,7 @@ endif;
 ?>
 
 <?php
-$judul_page = 'Edit Kriteria';
+$get_title = 'Edit Kriteria';
 require_once('side/header.php');
 ?>
 

@@ -21,7 +21,7 @@ if(!$id_kriteria) {
 ?>
 
 <?php
-$judul_page = 'Detail Kriteria';
+$get_title = 'Detail Kriteria';
 require_once('side/header.php');
 ?>
 
@@ -31,7 +31,7 @@ require_once('side/header.php');
 		<?php include_once('side/sidebar-kriteria.php'); ?>
 	
 		<div class="main-content the-content">
-			<h1><?php echo $judul_page; ?></h1>
+			<h1><?php echo $get_title; ?></h1>
 			
 			<?php if($ada_error): ?>
 			

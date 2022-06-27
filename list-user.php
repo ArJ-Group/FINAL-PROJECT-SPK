@@ -2,7 +2,7 @@
 <?php cek_login($role = array(1)); ?>
 
 <?php
-$judul_page = 'List User';
+$get_title = 'List User';
 require_once('side/header.php');
 ?>
 

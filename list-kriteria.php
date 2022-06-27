@@ -2,7 +2,7 @@
 <?php cek_login($role = array(1)); ?>
 
 <?php
-$judul_page = 'List Kriteria';
+$get_title = 'List Kriteria';
 require_once('side/header.php');
 ?>
 
