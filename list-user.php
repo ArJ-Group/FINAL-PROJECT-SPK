@@ -49,7 +49,7 @@ require_once('side/header.php');
 							?>
 							</td>
 							<td><a href="single-user.php?id=<?php echo $hasil['id_user']; ?>"><span class="fa fa-eye"></span> Detail</a></td>
-							<td><a href="edit-user.php?id=<?php echo $hasil['id_user']; ?>"><span class="fa fa-pencil"></span> Edit</a></td>
+							<td><a href="Uedit.php?id=<?php echo $hasil['id_user']; ?>"><span class="fa fa-pencil"></span> Edit</a></td>
 							<td><a href="hapus-user.php?id=<?php echo $hasil['id_user']; ?>" class="red yaqin-hapus"><span class="fa fa-times"></span> Hapus</a></td>
 						</tr>
 					<?php endwhile; ?>

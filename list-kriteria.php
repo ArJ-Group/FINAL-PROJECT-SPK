@@ -76,7 +76,7 @@ require_once('side/header.php');
 							<td><?php echo $hasil['urutan_order']; ?></td>							
 							<td><?php echo ($hasil['ada_pilihan']) ? 'Pilihan': 'Inputan'; ?></td>							
 							<td><a href="single-kriteria.php?id=<?php echo $hasil['id_kriteria']; ?>"><span class="fa fa-eye"></span> Detail</a></td>
-							<td><a href="edit-kriteria.php?id=<?php echo $hasil['id_kriteria']; ?>"><span class="fa fa-pencil"></span> Edit</a></td>
+							<td><a href="Cedit.php?id=<?php echo $hasil['id_kriteria']; ?>"><span class="fa fa-pencil"></span> Edit</a></td>
 							<td><a href="hapus-kriteria.php?id=<?php echo $hasil['id_kriteria']; ?>" class="red yaqin-hapus"><span class="fa fa-times"></span> Hapus</a></td>
 						</tr>
 					<?php endwhile; ?>

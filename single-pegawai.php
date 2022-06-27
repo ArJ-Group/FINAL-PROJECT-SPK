@@ -82,7 +82,7 @@ require_once('side/header.php');
 				endif;
 				?>
 
-				<p><a href="edit-pegawai.php?id=<?php echo $id_pegawai; ?>" class="button"><span class="fa fa-pencil"></span> Edit</a> &nbsp; <a href="hapus-pegawai.php?id=<?php echo $id_pegawai; ?>" class="button button-red yaqin-hapus"><span class="fa fa-times"></span> Hapus</a></p>
+				<p><a href="Pedit.php?id=<?php echo $id_pegawai; ?>" class="button"><span class="fa fa-pencil"></span> Edit</a> &nbsp; <a href="hapus-pegawai.php?id=<?php echo $id_pegawai; ?>" class="button button-red yaqin-hapus"><span class="fa fa-times"></span> Hapus</a></p>
 			
 			<?php endif; ?>			
 			

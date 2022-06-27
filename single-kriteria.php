@@ -97,7 +97,7 @@ require_once('side/header.php');
 						</table>
 				<?php endif; ?>
 				
-				<p><a href="edit-kriteria.php?id=<?php echo $id_kriteria; ?>" class="button"><span class="fa fa-pencil"></span> Edit</a> &nbsp; <a href="hapus-kriteria.php?id=<?php echo $id_kriteria; ?>" class="button button-red yaqin-hapus"><span class="fa fa-times"></span> Hapus</a></p>
+				<p><a href="Cedit.php?id=<?php echo $id_kriteria; ?>" class="button"><span class="fa fa-pencil"></span> Edit</a> &nbsp; <a href="hapus-kriteria.php?id=<?php echo $id_kriteria; ?>" class="button button-red yaqin-hapus"><span class="fa fa-times"></span> Hapus</a></p>
 			
 			
 			<?php endif; ?>
