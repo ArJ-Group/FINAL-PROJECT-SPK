@@ -12,18 +12,18 @@ $sub_crite = $qry->fetchAll();
 $qry2 = $pdo->prepare('SELECT id_pegawai, nomer FROM pegawai');
 $qry2->execute();			
 $qry2->setFetchMode(PDO::FETCH_ASSOC);
-$pegawais = $qry2->fetchAll();
+$Employe = $qry2->fetchAll();
 
 $ResultCal = array();
-foreach($getCalculate as $id_kriteria => $nilai_pegawais):
+foreach($getCalculate as $id_kriteria => $nilai_Employe):
 	
 	$jumlah_kuadrat = 0;
-	foreach($nilai_pegawais as $nilai_pegawai):
+	foreach($nilai_Employe as $nilai_pegawai):
 		$jumlah_kuadrat += pow($nilai_pegawai, 2);
 	endforeach;
 	$sqrt = sqrt($jumlah_kuadrat);
 	
-	foreach($nilai_pegawais as $id_pegawai => $nilai_pegawai):
+	foreach($nilai_Employe as $id_pegawai => $nilai_pegawai):
 		$ResultCal[$id_kriteria][$id_pegawai] = $nilai_pegawai / $sqrt;
 	endforeach;
 	
@@ -33,7 +33,7 @@ endforeach;
 
 $Cal = array();
 foreach($sub_crite as $kriteria):
-	foreach($pegawais as $pegawai):
+	foreach($Employe as $pegawai):
 		
 		$bobot = $kriteria['bobot'];
 		$id_pegawai = $pegawai['id_pegawai'];
@@ -48,7 +48,7 @@ endforeach;
 
 $getCalculate = array();
 foreach($sub_crite as $kriteria):
-	foreach($pegawais as $pegawai):
+	foreach($Employe as $pegawai):
 		
 		$id_pegawai = $pegawai['id_pegawai'];
 		$id_kriteria = $kriteria['id_kriteria'];
@@ -98,17 +98,17 @@ endforeach;
 
 $PidealS = array();
 $NidealS = array();
-foreach($pegawais as $pegawai):
+foreach($Employe as $pegawai):
 
 	$id_pegawai = $pegawai['id_pegawai'];		
 	$jumlah_kuadrat_jip = 0;
 	$jumlah_kuadrat_jin = 0;
 	
 	// Mencari penjumlahan kuadrat
-	foreach($Cal as $id_kriteria => $nilai_pegawais):
+	foreach($Cal as $id_kriteria => $nilai_Employe):
 		
-		$hsl_pengurangan_jip = $nilai_pegawais[$id_pegawai] - $S_plus[$id_kriteria];
-		$hsl_pengurangan_jin = $nilai_pegawais[$id_pegawai] - $S_Min[$id_kriteria];
+		$hsl_pengurangan_jip = $nilai_Employe[$id_pegawai] - $S_plus[$id_kriteria];
+		$hsl_pengurangan_jin = $nilai_Employe[$id_pegawai] - $S_Min[$id_kriteria];
 		
 		$jumlah_kuadrat_jip += pow($hsl_pengurangan_jip, 2);
 		$jumlah_kuadrat_jin += pow($hsl_pengurangan_jin, 2);
@@ -126,17 +126,17 @@ foreach($pegawais as $pegawai):
 endforeach;
 
 
-$ranks = array();
-foreach($pegawais as $pegawai):
+$torank = array();
+foreach($Employe as $pegawai):
 
 	$s_negatif = $NidealS[$pegawai['id_pegawai']];
 	$s_positif = $PidealS[$pegawai['id_pegawai']];	
 	
 	$nilai_v = $s_negatif / ($s_positif + $s_negatif);
 	
-	$ranks[$pegawai['id_pegawai']]['id_pegawai'] = $pegawai['id_pegawai'];
-	$ranks[$pegawai['id_pegawai']]['nomer'] = $pegawai['nomer'];
-	$ranks[$pegawai['id_pegawai']]['nilai'] = $nilai_v;
+	$torank[$pegawai['id_pegawai']]['id_pegawai'] = $pegawai['id_pegawai'];
+	$torank[$pegawai['id_pegawai']]['nomer'] = $pegawai['nomer'];
+	$torank[$pegawai['id_pegawai']]['nilai'] = $nilai_v;
 	
 endforeach;
  
@@ -175,7 +175,7 @@ endforeach;
 					</tr>
 				</thead>
 				<tbody>
-					<?php foreach($pegawais as $pegawai): ?>
+					<?php foreach($Employe as $pegawai): ?>
 					<tr>
 						<td><?php echo $pegawai['nomer']; ?></td>
 						<?php						
@@ -193,7 +193,7 @@ endforeach;
 			</table>
 
 
-			<h3>Step 2: Bobot Preferensi (W)</h3>
+			<h3>Step 2: Bobot Preferensi </h3>
 			<table class="pure-table pure-table-striped">
 				<thead>
 					<tr>
@@ -236,7 +236,7 @@ endforeach;
 					</tr>
 				</thead>
 				<tbody>
-					<?php foreach($pegawais as $pegawai): ?>
+					<?php foreach($Employe as $pegawai): ?>
 					<tr>
 						<td><?php echo $pegawai['nomer']; ?></td>
 						<?php						
@@ -269,7 +269,7 @@ endforeach;
 					</tr>
 				</thead>
 				<tbody>
-					<?php foreach($pegawais as $pegawai): ?>
+					<?php foreach($Employe as $pegawai): ?>
 					<tr>
 						<td><?php echo $pegawai['nomer']; ?></td>
 						<?php						
@@ -345,7 +345,7 @@ endforeach;
 					</tr>
 				</thead>
 				<tbody>
-					<?php foreach($pegawais as $pegawai ): ?>
+					<?php foreach($Employe as $pegawai ): ?>
 					<tr>
 						<td><?php echo $pegawai['nomer']; ?></td>
 						<td>
@@ -369,7 +369,7 @@ endforeach;
 					</tr>
 				</thead>
 				<tbody>
-					<?php foreach($pegawais as $pegawai ): ?>
+					<?php foreach($Employe as $pegawai ): ?>
 					<tr>
 						<td><?php echo $pegawai['nomer']; ?></td>
 						<td>
@@ -386,7 +386,7 @@ endforeach;
 
 
 			<?php		
-		$sorted = $ranks;	
+		$sorted = $torank;	
 		
 
 		if(function_exists('array_multisort')):

@@ -35,7 +35,7 @@ $kriterias = $query->fetchAll();
 $query2 = $pdo->prepare('SELECT id_pegawai, nomer FROM pegawai');
 $query2->execute();			
 $query2->setFetchMode(PDO::FETCH_ASSOC);
-$pegawais = $query2->fetchAll();
+$Employe = $query2->fetchAll();
 
 
 /* >>> STEP 1 ===================================
@@ -43,7 +43,7 @@ $pegawais = $query2->fetchAll();
  * ------------------------------------------- */
 $matriks_x = array();
 foreach($kriterias as $kriteria):
-	foreach($pegawais as $pegawai):
+	foreach($Employe as $pegawai):
 		
 		$id_pegawai = $pegawai['id_pegawai'];
 		$id_kriteria = $kriteria['id_kriteria'];
@@ -70,18 +70,18 @@ endforeach;
  * Matriks Ternormalisasi (R)
  * ------------------------------------------- */
 $matriks_r = array();
-foreach($matriks_x as $id_kriteria => $nilai_pegawais):
+foreach($matriks_x as $id_kriteria => $nilai_Employe):
 	
 	// Mencari akar dari penjumlahan kuadrat
 	$jumlah_kuadrat = 0;
-	foreach($nilai_pegawais as $nilai_pegawai):
+	foreach($nilai_Employe as $nilai_pegawai):
 		$jumlah_kuadrat += pow($nilai_pegawai, 2);
 	endforeach;
 	$akar_kuadrat = sqrt($jumlah_kuadrat);
 	
 	// Mencari hasil bagi akar kuadrat
 	// Lalu dimasukkan ke array $matriks_r
-	foreach($nilai_pegawais as $id_pegawai => $nilai_pegawai):
+	foreach($nilai_Employe as $id_pegawai => $nilai_pegawai):
 		$matriks_r[$id_kriteria][$id_pegawai] = $nilai_pegawai / $akar_kuadrat;
 	endforeach;
 	
@@ -93,7 +93,7 @@ endforeach;
  * ------------------------------------------- */
 $matriks_y = array();
 foreach($kriterias as $kriteria):
-	foreach($pegawais as $pegawai):
+	foreach($Employe as $pegawai):
 		
 		$bobot = $kriteria['bobot'];
 		$id_pegawai = $pegawai['id_pegawai'];
@@ -138,17 +138,17 @@ endforeach;
  * ------------------------------------------- */
 $jarak_ideal_positif = array();
 $jarak_ideal_negatif = array();
-foreach($pegawais as $pegawai):
+foreach($Employe as $pegawai):
 
 	$id_pegawai = $pegawai['id_pegawai'];		
 	$jumlah_kuadrat_jip = 0;
 	$jumlah_kuadrat_jin = 0;
 	
 	// Mencari penjumlahan kuadrat
-	foreach($matriks_y as $id_kriteria => $nilai_pegawais):
+	foreach($matriks_y as $id_kriteria => $nilai_Employe):
 		
-		$hsl_pengurangan_jip = $nilai_pegawais[$id_pegawai] - $solusi_ideal_positif[$id_kriteria];
-		$hsl_pengurangan_jin = $nilai_pegawais[$id_pegawai] - $solusi_ideal_negatif[$id_kriteria];
+		$hsl_pengurangan_jip = $nilai_Employe[$id_pegawai] - $solusi_ideal_positif[$id_kriteria];
+		$hsl_pengurangan_jin = $nilai_Employe[$id_pegawai] - $solusi_ideal_negatif[$id_kriteria];
 		
 		$jumlah_kuadrat_jip += pow($hsl_pengurangan_jip, 2);
 		$jumlah_kuadrat_jin += pow($hsl_pengurangan_jin, 2);
@@ -170,7 +170,7 @@ endforeach;
  * Perangkingan
  * ------------------------------------------- */
 $ranks = array();
-foreach($pegawais as $pegawai):
+foreach($Employe as $pegawai):
 
 	$s_negatif = $jarak_ideal_negatif[$pegawai['id_pegawai']];
 	$s_positif = $jarak_ideal_positif[$pegawai['id_pegawai']];	
@@ -218,7 +218,7 @@ endforeach;
 				</tr>
 			</thead>
 			<tbody>
-				<?php foreach($pegawais as $pegawai): ?>
+				<?php foreach($Employe as $pegawai): ?>
 					<tr>
 						<td><?php echo $pegawai['nomer']; ?></td>
 						<?php						
@@ -235,8 +235,8 @@ endforeach;
 			</tbody>
 		</table>
 		
-		<!-- STEP 2. Bobot Preferensi (W) ==================== -->
-		<h3>Step 2: Bobot Preferensi (W)</h3>			
+		
+		<h3>Step 2: Bobot Preferensi</h3>			
 		<table class="pure-table pure-table-striped">
 			<thead>
 				<tr>
@@ -279,7 +279,7 @@ endforeach;
 				</tr>
 			</thead>
 			<tbody>
-				<?php foreach($pegawais as $pegawai): ?>
+				<?php foreach($Employe as $pegawai): ?>
 					<tr>
 						<td><?php echo $pegawai['nomer']; ?></td>
 						<?php						
@@ -312,7 +312,7 @@ endforeach;
 				</tr>
 			</thead>
 			<tbody>
-				<?php foreach($pegawais as $pegawai): ?>
+				<?php foreach($Employe as $pegawai): ?>
 					<tr>
 						<td><?php echo $pegawai['nomer']; ?></td>
 						<?php						
@@ -388,7 +388,7 @@ endforeach;
 				</tr>
 			</thead>
 			<tbody>
-				<?php foreach($pegawais as $pegawai ): ?>
+				<?php foreach($Employe as $pegawai ): ?>
 					<tr>
 						<td><?php echo $pegawai['nomer']; ?></td>
 						<td>
@@ -412,7 +412,7 @@ endforeach;
 				</tr>
 			</thead>
 			<tbody>
-				<?php foreach($pegawais as $pegawai ): ?>
+				<?php foreach($Employe as $pegawai ): ?>
 					<tr>
 						<td><?php echo $pegawai['nomer']; ?></td>
 						<td>
