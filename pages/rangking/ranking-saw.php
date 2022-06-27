@@ -35,7 +35,7 @@ $kriterias = $query->fetchAll();
 $query2 = $pdo->prepare('SELECT id_pegawai, nomer FROM pegawai');
 $query2->execute();			
 $query2->setFetchMode(PDO::FETCH_ASSOC);
-$pegawais = $query2->fetchAll();
+$Employe = $query2->fetchAll();
 
 
 /* >>> STEP 1 ===================================
@@ -45,7 +45,7 @@ $matriks_x = array();
 $list_kriteria = array();
 foreach($kriterias as $kriteria):
 	$list_kriteria[$kriteria['id_kriteria']] = $kriteria;
-	foreach($pegawais as $pegawai):
+	foreach($Employe as $pegawai):
 		
 		$id_pegawai = $pegawai['id_pegawai'];
 		$id_kriteria = $kriteria['id_kriteria'];
@@ -72,14 +72,14 @@ endforeach;
  * Matriks Ternormalisasi (R)
  * ------------------------------------------- */
 $matriks_r = array();
-foreach($matriks_x as $id_kriteria => $nilai_pegawais):
+foreach($matriks_x as $id_kriteria => $nilai_Employe):
 	
 	$type = $list_kriteria[$id_kriteria]['type'];
-	foreach($nilai_pegawais as $id_alternatif => $nilai) {
+	foreach($nilai_Employe as $id_alternatif => $nilai) {
 		if($type == 'benefit') {
-			$nilai_normal = $nilai / max($nilai_pegawais);
+			$nilai_normal = $nilai / max($nilai_Employe);
 		} elseif($type == 'cost') {
-			$nilai_normal = min($nilai_pegawais) / $nilai;
+			$nilai_normal = min($nilai_Employe) / $nilai;
 		}
 		
 		$matriks_r[$id_kriteria][$id_alternatif] = $nilai_normal;
@@ -92,7 +92,7 @@ endforeach;
  * Perangkingan
  * ------------------------------------------- */
 $ranks = array();
-foreach($pegawais as $pegawai):
+foreach($Employe as $pegawai):
 
 	$total_nilai = 0;
 	foreach($list_kriteria as $kriteria) {
@@ -136,7 +136,7 @@ endforeach;
 				</tr>
 			</thead>
 			<tbody>
-				<?php foreach($pegawais as $pegawai): ?>
+				<?php foreach($Employe as $pegawai): ?>
 					<tr>
 						<td><?php echo $pegawai['nomer']; ?></td>
 						<?php						
@@ -153,8 +153,8 @@ endforeach;
 			</tbody>
 		</table>
 		
-		<!-- STEP 2. Bobot Preferensi (W) ==================== -->
-		<h3>Step 2: Bobot Preferensi (W)</h3>			
+		
+		<h3>Step 2: Bobot Preferensi </h3>			
 		<table class="pure-table pure-table-striped">
 			<thead>
 				<tr>
@@ -197,7 +197,7 @@ endforeach;
 				</tr>
 			</thead>
 			<tbody>
-				<?php foreach($pegawais as $pegawai): ?>
+				<?php foreach($Employe as $pegawai): ?>
 					<tr>
 						<td><?php echo $pegawai['nomer']; ?></td>
 						<?php						
