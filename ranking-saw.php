@@ -2,28 +2,21 @@
 require_once('condb/init.php');
 $judul_page = 'Perankingan Menggunakan Metode SAW';
 require_once('side/header.php');
-
-
 $digit = 4;
-
-
-$query = $pdo->prepare('SELECT id_kriteria, nama, type, bobot
+$qry = $pdo->prepare('SELECT id_kriteria, nama, type, bobot
 	FROM kriteria ORDER BY urutan_order ASC');
-$query->execute();
-$query->setFetchMode(PDO::FETCH_ASSOC);
-$kriterias = $query->fetchAll();
+$qry->execute();
+$qry->setFetchMode(PDO::FETCH_ASSOC);
+$kriterias = $qry->fetchAll();
 
 
-$query2 = $pdo->prepare('SELECT id_pegawai, nomer FROM pegawai');
-$query2->execute();			
-$query2->setFetchMode(PDO::FETCH_ASSOC);
-$pegawais = $query2->fetchAll();
+$qry2 = $pdo->prepare('SELECT id_pegawai, nomer FROM pegawai');
+$qry2->execute();			
+$qry2->setFetchMode(PDO::FETCH_ASSOC);
+$pegawais = $qry2->fetchAll();
 
 
-/*  1 
- * Matrix Keputusan (X)
-*/
-$matriks_x = array();
+$getCalculate = array();
 $list_kriteria = array();
 foreach($kriterias as $kriteria):
 	$list_kriteria[$kriteria['id_kriteria']] = $kriteria;
@@ -33,28 +26,24 @@ foreach($kriterias as $kriteria):
 		$id_kriteria = $kriteria['id_kriteria'];
 		
 		
-		$query3 = $pdo->prepare('SELECT nilai FROM nilai_pegawai
+		$qry3 = $pdo->prepare('SELECT nilai FROM nilai_pegawai
 			WHERE id_pegawai = :id_pegawai AND id_kriteria = :id_kriteria');
-		$query3->execute(array(
+		$qry3->execute(array(
 			'id_pegawai' => $id_pegawai,
 			'id_kriteria' => $id_kriteria,
 		));			
-		$query3->setFetchMode(PDO::FETCH_ASSOC);
-		if($nilai_pegawai = $query3->fetch()) {
+		$qry3->setFetchMode(PDO::FETCH_ASSOC);
+		if($nilai_pegawai = $qry3->fetch()) {
 			
-			$matriks_x[$id_kriteria][$id_pegawai] = $nilai_pegawai['nilai'];
+			$getCalculate[$id_kriteria][$id_pegawai] = $nilai_pegawai['nilai'];
 		} else {			
-			$matriks_x[$id_kriteria][$id_pegawai] = 0;
+			$getCalculate[$id_kriteria][$id_pegawai] = 0;
 		}
 
 	endforeach;
 endforeach;
-
-/*  3 
- * Matriks Ternormalisasi (R)
-  */
-$matriks_r = array();
-foreach($matriks_x as $id_kriteria => $nilai_pegawais):
+$ResultCal = array();
+foreach($getCalculate as $id_kriteria => $nilai_pegawais):
 	
 	$type = $list_kriteria[$id_kriteria]['type'];
 	foreach($nilai_pegawais as $id_alternatif => $nilai) {
@@ -64,15 +53,12 @@ foreach($matriks_x as $id_kriteria => $nilai_pegawais):
 			$nilai_normal = min($nilai_pegawais) / $nilai;
 		}
 		
-		$matriks_r[$id_kriteria][$id_alternatif] = $nilai_normal;
+		$ResultCal[$id_kriteria][$id_alternatif] = $nilai_normal;
 	}
 	
 endforeach;
 
 
-/*  4 
- * Perangkingan
-  */
 $ranks = array();
 foreach($pegawais as $pegawai):
 
@@ -83,7 +69,7 @@ foreach($pegawais as $pegawai):
 		$id_pegawai = $pegawai['id_pegawai'];
 		$id_kriteria = $kriteria['id_kriteria'];
 		
-		$nilai_r = $matriks_r[$id_kriteria][$id_pegawai];
+		$nilai_r = $ResultCal[$id_kriteria][$id_pegawai];
 		$total_nilai = $total_nilai + ($bobot * $nilai_r);
 
 	}
@@ -126,7 +112,7 @@ endforeach;
 							$id_pegawai = $pegawai['id_pegawai'];
 							$id_kriteria = $kriteria['id_kriteria'];
 							echo '<td>';
-							echo $matriks_x[$id_kriteria][$id_pegawai];
+							echo $getCalculate[$id_kriteria][$id_pegawai];
 							echo '</td>';
 						endforeach;
 						?>
@@ -187,7 +173,7 @@ endforeach;
 							$id_pegawai = $pegawai['id_pegawai'];
 							$id_kriteria = $kriteria['id_kriteria'];
 							echo '<td>';
-							echo round($matriks_r[$id_kriteria][$id_pegawai], $digit);
+							echo round($ResultCal[$id_kriteria][$id_pegawai], $digit);
 							echo '</td>';
 						endforeach;
 						?>

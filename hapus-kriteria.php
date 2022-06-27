@@ -10,9 +10,9 @@ $id_kriteria = (isset($_GET['id'])) ? trim($_GET['id']) : '';
 if(!$id_kriteria) {
 	$ada_error = 'Maaf, data tidak dapat diproses.';
 } else {
-	$query = $pdo->prepare('SELECT id_kriteria FROM kriteria WHERE kriteria.id_kriteria = :id_kriteria');
-	$query->execute(array('id_kriteria' => $id_kriteria));
-	$result = $query->fetch();
+	$qry = $pdo->prepare('SELECT id_kriteria FROM kriteria WHERE kriteria.id_kriteria = :id_kriteria');
+	$qry->execute(array('id_kriteria' => $id_kriteria));
+	$result = $qry->fetch();
 	
 	if(empty($result)) {
 		$ada_error = 'Maaf, data tidak dapat diproses.';

@@ -12,9 +12,9 @@ $id_kriteria = (isset($_GET['id'])) ? trim($_GET['id']) : '';
 if(!$id_kriteria) {
 	$ada_error = 'Maaf, data tidak dapat diproses.';
 } else {
-	$query = $pdo->prepare('SELECT * FROM kriteria WHERE kriteria.id_kriteria = :id_kriteria');
-	$query->execute(array('id_kriteria' => $id_kriteria));
-	$result = $query->fetch();
+	$qry = $pdo->prepare('SELECT * FROM kriteria WHERE kriteria.id_kriteria = :id_kriteria');
+	$qry->execute(array('id_kriteria' => $id_kriteria));
+	$result = $qry->fetch();
 	
 	if(empty($result)) {
 		$ada_error = 'Maaf, data tidak dapat diproses.';
@@ -53,7 +53,7 @@ if(isset($_POST['submit'])):
 	// Jika lolos validasi lakukan hal di bawah ini
 	if(empty($errors)):
 		
-		$prepare_query = 'UPDATE kriteria SET nama = :nama, type = :type, bobot = :bobot, urutan_order = :urutan_order, ada_pilihan = :jenis_nilai WHERE id_kriteria = :id_kriteria';
+		$prepare_qry = 'UPDATE kriteria SET nama = :nama, type = :type, bobot = :bobot, urutan_order = :urutan_order, ada_pilihan = :jenis_nilai WHERE id_kriteria = :id_kriteria';
 		$data = array(
 			'nama' => $nama,
 			'type' => $type,
@@ -62,7 +62,7 @@ if(isset($_POST['submit'])):
 			'id_kriteria' => $id_kriteria,
 			'jenis_nilai' => $jenis_nilai			
 		);		
-		$handle = $pdo->prepare($prepare_query);		
+		$handle = $pdo->prepare($prepare_qry);		
 		$sukses = $handle->execute($data);
 		
 		
@@ -78,7 +78,7 @@ if(isset($_POST['submit'])):
 			echo $nilai;
 			if($id_pil_kriteria && $nama != '' && ($nilai >= 0)):				
 				// Update jika pilihan telah ada di database				
-				$prepare_query = 'UPDATE pilihan_kriteria SET nama = :nama, id_kriteria = :id_kriteria, nilai = :nilai, urutan_order = :urutan_order WHERE id_pil_kriteria = :id_pil_kriteria';
+				$prepare_qry = 'UPDATE pilihan_kriteria SET nama = :nama, id_kriteria = :id_kriteria, nilai = :nilai, urutan_order = :urutan_order WHERE id_pil_kriteria = :id_pil_kriteria';
 				$data = array(
 					'nama' => $nama,
 					'id_kriteria' => $id_kriteria,
@@ -86,7 +86,7 @@ if(isset($_POST['submit'])):
 					'urutan_order' => $urutan_order,
 					'id_pil_kriteria' => $id_pil_kriteria		
 				);		
-				$handle = $pdo->prepare($prepare_query);		
+				$handle = $pdo->prepare($prepare_qry);		
 				$sukses = $handle->execute($data);
 				if($sukses):
 					$ids_pilihan[] = $id_pil_kriteria;
@@ -94,14 +94,14 @@ if(isset($_POST['submit'])):
 				
 			elseif(($nama != '') && ($nilai >= 0)):
 				// Insert jika pilihan belum ada di database
-				$prepare_query = 'INSERT INTO pilihan_kriteria (nama, id_kriteria, nilai, urutan_order) VALUES  (:nama, :id_kriteria, :nilai, :urutan_order)';
+				$prepare_qry = 'INSERT INTO pilihan_kriteria (nama, id_kriteria, nilai, urutan_order) VALUES  (:nama, :id_kriteria, :nilai, :urutan_order)';
 				$data = array(
 					'nama' => $nama,
 					'id_kriteria' => $id_kriteria,
 					'nilai' => $nilai,
 					'urutan_order' => $urutan_order	
 				);		
-				$handle = $pdo->prepare($prepare_query);		
+				$handle = $pdo->prepare($prepare_qry);		
 				$sukses = $handle->execute($data);				
 				if($sukses):
 					$last_id = $pdo->lastInsertId();
@@ -115,12 +115,12 @@ if(isset($_POST['submit'])):
 		// Bersihkan pilihan
 		if(!empty($ids_pilihan)):
 			$not_in = implode(',', $ids_pilihan);
-			$prepare_query = 'DELETE FROM pilihan_kriteria WHERE id_pil_kriteria NOT IN ('.$not_in.')';
-			$handle = $pdo->prepare($prepare_query);	
+			$prepare_qry = 'DELETE FROM pilihan_kriteria WHERE id_pil_kriteria NOT IN ('.$not_in.')';
+			$handle = $pdo->prepare($prepare_qry);	
 			$handle->execute();
 		else:
-			$prepare_query = 'DELETE FROM pilihan_kriteria WHERE id_kriteria = :id_kriteria';
-			$handle = $pdo->prepare($prepare_query);	
+			$prepare_qry = 'DELETE FROM pilihan_kriteria WHERE id_kriteria = :id_kriteria';
+			$handle = $pdo->prepare($prepare_qry);	
 			$handle->execute(array('id_kriteria' => $id_kriteria));
 		endif;
 		
@@ -215,14 +215,14 @@ require_once('side/header.php');
 							<tbody>
 								
 								<?php
-								$query = $pdo->prepare('SELECT * FROM pilihan_kriteria WHERE id_kriteria = :id_kriteria ORDER BY urutan_order ASC');			
-								$query->execute(array(
+								$qry = $pdo->prepare('SELECT * FROM pilihan_kriteria WHERE id_kriteria = :id_kriteria ORDER BY urutan_order ASC');			
+								$qry->execute(array(
 									'id_kriteria' => $id_kriteria
 								));
 								// menampilkan berupa nama field
-								$query->setFetchMode(PDO::FETCH_ASSOC);
+								$qry->setFetchMode(PDO::FETCH_ASSOC);
 								$ctr = 1;
-								if($query->rowCount() > 0): while($results = $query->fetch()):
+								if($qry->rowCount() > 0): while($results = $qry->fetch()):
 								?>								
 									<tr data-counter="<?php echo $ctr; ?>">
 										<td><input type="text" name="pilihan[<?php echo $ctr; ?>][nama]" value="<?php echo $results['nama']; ?>">

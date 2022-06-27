@@ -42,9 +42,9 @@ if(isset($_POST['submit'])):
 	
 	// Cek Username
 	if($username) {
-		$query = $pdo->prepare('SELECT username FROM user WHERE user.username = :username');
-		$query->execute(array('username' => $username));
-		$result = $query->fetch();
+		$qry = $pdo->prepare('SELECT username FROM user WHERE user.username = :username');
+		$qry->execute(array('username' => $username));
+		$result = $qry->fetch();
 		if(!empty($result)) {
 			$errors[] = 'Username sudah digunakan';
 		}

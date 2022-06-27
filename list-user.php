@@ -15,12 +15,12 @@ require_once('side/header.php');
 			<h1>List User</h1>
 			
 			<?php
-			$query = $pdo->prepare('SELECT id_user, username, nama, role FROM user');			
-			$query->execute();
+			$qry = $pdo->prepare('SELECT id_user, username, nama, role FROM user');			
+			$qry->execute();
 			// menampilkan berupa nama field
-			$query->setFetchMode(PDO::FETCH_ASSOC);
+			$qry->setFetchMode(PDO::FETCH_ASSOC);
 			
-			if($query->rowCount() > 0):
+			if($qry->rowCount() > 0):
 			?>
 			
 			<table class="pure-table pure-table-striped">
@@ -35,7 +35,7 @@ require_once('side/header.php');
 					</tr>
 				</thead>
 				<tbody>
-					<?php while($hasil = $query->fetch()): ?>
+					<?php while($hasil = $qry->fetch()): ?>
 						<tr>
 							<td><?php echo $hasil['username']; ?></td>
 							<td><?php echo $hasil['nama']; ?></td>

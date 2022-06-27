@@ -13,9 +13,9 @@ $id_pegawai = (isset($_GET['id'])) ? trim($_GET['id']) : '';
 if(!$id_pegawai) {
 	$ada_error = 'Maaf, data tidak dapat diproses.';
 } else {
-	$query = $pdo->prepare('SELECT * FROM pegawai WHERE id_pegawai = :id_pegawai');
-	$query->execute(array('id_pegawai' => $id_pegawai));
-	$result = $query->fetch();
+	$qry = $pdo->prepare('SELECT * FROM pegawai WHERE id_pegawai = :id_pegawai');
+	$qry->execute(array('id_pegawai' => $id_pegawai));
+	$result = $qry->fetch();
 	
 	if(empty($result)) {
 		$ada_error = 'Maaf, data tidak dapat diproses.';
@@ -49,14 +49,14 @@ if(isset($_POST['submit'])):
 	// Jika lolos validasi lakukan hal di bawah ini
 	if(empty($errors)):
 		
-		$prepare_query = 'UPDATE pegawai SET nomer = :nomer, nama = :nama, tanggal_input = :tanggal_input WHERE id_pegawai = :id_pegawai';
+		$prepare_qry = 'UPDATE pegawai SET nomer = :nomer, nama = :nama, tanggal_input = :tanggal_input WHERE id_pegawai = :id_pegawai';
 		$data = array(
 			'nomer' => $nomer,
 			'nama' => $nama,
 			'tanggal_input' => $tanggal_input,
 			'id_pegawai' => $id_pegawai,
 		);		
-		$handle = $pdo->prepare($prepare_query);		
+		$handle = $pdo->prepare($prepare_qry);		
 		$sukses = $handle->execute($data);
 		
 		if(!empty($kriteria)):
@@ -133,19 +133,19 @@ require_once('side/header.php');
 					
 					<h3>Nilai Kriteria</h3>
 					<?php
-					$query2 = $pdo->prepare('SELECT nilai_pegawai.nilai AS nilai, kriteria.nama AS nama, kriteria.id_kriteria AS id_kriteria, kriteria.ada_pilihan AS jenis_nilai 
+					$qry2 = $pdo->prepare('SELECT nilai_pegawai.nilai AS nilai, kriteria.nama AS nama, kriteria.id_kriteria AS id_kriteria, kriteria.ada_pilihan AS jenis_nilai 
 					FROM kriteria LEFT JOIN nilai_pegawai 
 					ON nilai_pegawai.id_kriteria = kriteria.id_kriteria 
 					AND nilai_pegawai.id_pegawai = :id_pegawai 
 					ORDER BY kriteria.urutan_order ASC');
-					$query2->execute(array(
+					$qry2->execute(array(
 						'id_pegawai' => $id_pegawai
 					));
-					$query2->setFetchMode(PDO::FETCH_ASSOC);
+					$qry2->setFetchMode(PDO::FETCH_ASSOC);
 					
-					if($query2->rowCount() > 0):
+					if($qry2->rowCount() > 0):
 					
-						while($kriteria = $query2->fetch()):
+						while($kriteria = $qry2->fetch()):
 						?>
 							<div class="field-wrap clearfix">					
 								<label><?php echo $kriteria['nama']; ?></label>
@@ -155,13 +155,13 @@ require_once('side/header.php');
 									<select name="kriteria[<?php echo $kriteria['id_kriteria']; ?>]">
 										<option value="0">-- Pilih Variabel --</option>
 										<?php
-										$query3 = $pdo->prepare('SELECT * FROM pilihan_kriteria WHERE id_kriteria = :id_kriteria ORDER BY urutan_order ASC');			
-										$query3->execute(array(
+										$qry3 = $pdo->prepare('SELECT * FROM pilihan_kriteria WHERE id_kriteria = :id_kriteria ORDER BY urutan_order ASC');			
+										$qry3->execute(array(
 											'id_kriteria' => $kriteria['id_kriteria']
 										));
 										// menampilkan berupa nama field
-										$query3->setFetchMode(PDO::FETCH_ASSOC);
-										if($query3->rowCount() > 0): while($hasl = $query3->fetch()):
+										$qry3->setFetchMode(PDO::FETCH_ASSOC);
+										if($qry3->rowCount() > 0): while($hasl = $qry3->fetch()):
 										?>
 											<option value="<?php echo $hasl['nilai']; ?>" <?php selected($kriteria['nilai'], $hasl['nilai']); ?>><?php echo $hasl['nama']; ?></option>
 										<?php

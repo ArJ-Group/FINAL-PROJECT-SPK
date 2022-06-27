@@ -10,9 +10,9 @@ $id_kriteria = (isset($_GET['id'])) ? trim($_GET['id']) : '';
 if(!$id_kriteria) {
 	$ada_error = 'Maaf, data tidak dapat diproses.';
 } else {
-	$query = $pdo->prepare('SELECT * FROM kriteria WHERE kriteria.id_kriteria = :id_kriteria');
-	$query->execute(array('id_kriteria' => $id_kriteria));
-	$result = $query->fetch();
+	$qry = $pdo->prepare('SELECT * FROM kriteria WHERE kriteria.id_kriteria = :id_kriteria');
+	$qry->execute(array('id_kriteria' => $id_kriteria));
+	$result = $qry->fetch();
 	
 	if(empty($result)) {
 		$ada_error = 'Maaf, data tidak dapat diproses.';
@@ -79,13 +79,13 @@ require_once('side/header.php');
 							<tbody>
 								
 								<?php
-								$query = $pdo->prepare('SELECT * FROM pilihan_kriteria WHERE id_kriteria = :id_kriteria ORDER BY urutan_order ASC');			
-								$query->execute(array(
+								$qry = $pdo->prepare('SELECT * FROM pilihan_kriteria WHERE id_kriteria = :id_kriteria ORDER BY urutan_order ASC');			
+								$qry->execute(array(
 									'id_kriteria' => $result['id_kriteria']
 								));
 								// menampilkan berupa nama field
-								$query->setFetchMode(PDO::FETCH_ASSOC);
-								if($query->rowCount() > 0): while($hasile = $query->fetch()):
+								$qry->setFetchMode(PDO::FETCH_ASSOC);
+								if($qry->rowCount() > 0): while($hasile = $qry->fetch()):
 								?>								
 									<tr>
 										<td><?php echo $hasile['nama']; ?></td>							

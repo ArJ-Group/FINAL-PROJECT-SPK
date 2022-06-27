@@ -88,14 +88,14 @@ require_once('side/header.php');
 					
 					<h3>Nilai Kriteria</h3>
 					<?php
-					$query = $pdo->prepare('SELECT id_kriteria, nama, ada_pilihan FROM kriteria ORDER BY urutan_order ASC');			
-					$query->execute();
+					$qry = $pdo->prepare('SELECT id_kriteria, nama, ada_pilihan FROM kriteria ORDER BY urutan_order ASC');			
+					$qry->execute();
 					// menampilkan berupa nama field
-					$query->setFetchMode(PDO::FETCH_ASSOC);
+					$qry->setFetchMode(PDO::FETCH_ASSOC);
 					
-					if($query->rowCount() > 0):
+					if($qry->rowCount() > 0):
 					
-						while($kriteria = $query->fetch()):							
+						while($kriteria = $qry->fetch()):							
 						?>
 						
 							<div class="field-wrap clearfix">					
@@ -107,13 +107,13 @@ require_once('side/header.php');
 									<select name="kriteria[<?php echo $kriteria['id_kriteria']; ?>]">
 										<option value="0">-- Pilih Variabel --</option>
 										<?php
-										$query3 = $pdo->prepare('SELECT * FROM pilihan_kriteria WHERE id_kriteria = :id_kriteria ORDER BY urutan_order ASC');			
-										$query3->execute(array(
+										$qry3 = $pdo->prepare('SELECT * FROM pilihan_kriteria WHERE id_kriteria = :id_kriteria ORDER BY urutan_order ASC');			
+										$qry3->execute(array(
 											'id_kriteria' => $kriteria['id_kriteria']
 										));
 										// menampilkan berupa nama field
-										$query3->setFetchMode(PDO::FETCH_ASSOC);
-										if($query3->rowCount() > 0): while($hasl = $query3->fetch()):
+										$qry3->setFetchMode(PDO::FETCH_ASSOC);
+										if($qry3->rowCount() > 0): while($hasl = $qry3->fetch()):
 										?>
 											<option value="<?php echo $hasl['nilai']; ?>"><?php echo $hasl['nama']; ?></option>
 										<?php

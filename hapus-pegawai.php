@@ -10,9 +10,9 @@ $id_pegawai = (isset($_GET['id'])) ? trim($_GET['id']) : '';
 if(!$id_pegawai) {
 	$ada_error = 'Maaf, data tidak dapat diproses.';
 } else {
-	$query = $pdo->prepare('SELECT id_pegawai FROM pegawai WHERE id_pegawai = :id_pegawai');
-	$query->execute(array('id_pegawai' => $id_pegawai));
-	$result = $query->fetch();
+	$qry = $pdo->prepare('SELECT id_pegawai FROM pegawai WHERE id_pegawai = :id_pegawai');
+	$qry->execute(array('id_pegawai' => $id_pegawai));
+	$result = $qry->fetch();
 	
 	if(empty($result)) {
 		$ada_error = 'Maaf, data tidak dapat diproses.';

@@ -38,12 +38,12 @@ require_once('side/header.php');
 			<h1>List Pegawai</h1>
 			
 			<?php
-			$query = $pdo->prepare('SELECT * FROM pegawai');			
-			$query->execute();
+			$qry = $pdo->prepare('SELECT * FROM pegawai');			
+			$qry->execute();
 			// menampilkan berupa nama field
-			$query->setFetchMode(PDO::FETCH_ASSOC);
+			$qry->setFetchMode(PDO::FETCH_ASSOC);
 			
-			if($query->rowCount() > 0):
+			if($qry->rowCount() > 0):
 			?>
 			
 			<table class="pure-table pure-table-striped">
@@ -57,7 +57,7 @@ require_once('side/header.php');
 					</tr>
 				</thead>
 				<tbody>
-					<?php while($hasil = $query->fetch()): ?>
+					<?php while($hasil = $qry->fetch()): ?>
 						<tr>
 							<td><?php echo $hasil['nomer']; ?></td>							
 							<td><?php echo $hasil['nama']; ?></td>							
@@ -73,16 +73,16 @@ require_once('side/header.php');
 			<!-- STEP 1. Matriks Keputusan(X) ==================== -->
 			<?php
 			// Fetch semua kriteria
-			$query = $pdo->prepare('SELECT id_kriteria, nama, type, bobot FROM kriteria
+			$qry = $pdo->prepare('SELECT id_kriteria, nama, type, bobot FROM kriteria
 				ORDER BY urutan_order ASC');
-			$query->execute();			
-			$kriterias = $query->fetchAll(PDO::FETCH_GROUP|PDO::FETCH_UNIQUE);
+			$qry->execute();			
+			$kriterias = $qry->fetchAll(PDO::FETCH_GROUP|PDO::FETCH_UNIQUE);
 			
 			// Fetch semua pegawai
-			$query2 = $pdo->prepare('SELECT id_pegawai, nomer FROM pegawai');
-			$query2->execute();			
-			$query2->setFetchMode(PDO::FETCH_ASSOC);
-			$pegawais = $query2->fetchAll();			
+			$qry2 = $pdo->prepare('SELECT id_pegawai, nomer FROM pegawai');
+			$qry2->execute();			
+			$qry2->setFetchMode(PDO::FETCH_ASSOC);
+			$pegawais = $qry2->fetchAll();			
 			?>
 			
 			<h3>Matriks Keputusan (X)</h3>
@@ -104,13 +104,13 @@ require_once('side/header.php');
 							<td><?php echo $pegawai['nomer']; ?></td>
 							<?php
 							// Ambil Nilai
-							$query3 = $pdo->prepare('SELECT id_kriteria, nilai FROM nilai_pegawai
+							$qry3 = $pdo->prepare('SELECT id_kriteria, nilai FROM nilai_pegawai
 								WHERE id_pegawai = :id_pegawai');
-							$query3->execute(array(
+							$qry3->execute(array(
 								'id_pegawai' => $pegawai['id_pegawai']
 							));			
-							$query3->setFetchMode(PDO::FETCH_ASSOC);
-							$nilais = $query3->fetchAll(PDO::FETCH_GROUP|PDO::FETCH_UNIQUE);
+							$qry3->setFetchMode(PDO::FETCH_ASSOC);
+							$nilais = $qry3->fetchAll(PDO::FETCH_GROUP|PDO::FETCH_UNIQUE);
 							
 							foreach($kriterias as $id_kriteria => $values):
 								echo '<td>';

@@ -13,9 +13,9 @@ $id_user = (isset($_GET['id'])) ? trim($_GET['id']) : '';
 if(!$id_user) {
 	$ada_error = 'Maaf, data tidak dapat diproses.';
 } else {
-	$query = $pdo->prepare('SELECT id_user, username, nama, email, alamat, role FROM user WHERE user.id_user = :id_user');
-	$query->execute(array('id_user' => $id_user));
-	$result = $query->fetch();
+	$qry = $pdo->prepare('SELECT id_user, username, nama, email, alamat, role FROM user WHERE user.id_user = :id_user');
+	$qry->execute(array('id_user' => $id_user));
+	$result = $qry->fetch();
 	
 	if(empty($result)) {
 		$ada_error = 'Maaf, data tidak dapat diproses.';
@@ -62,7 +62,7 @@ if(isset($_POST['submit'])):
 	// Jika lolos validasi lakukan hal di bawah ini
 	if(empty($errors)):
 		
-		$prepare_query = 'UPDATE user SET nama = :nama, alamat = :alamat, email = :email, role = :role WHERE id_user = :id_user';
+		$prepare_qry = 'UPDATE user SET nama = :nama, alamat = :alamat, email = :email, role = :role WHERE id_user = :id_user';
 		$data = array(
 			'nama' => $nama,
 			'alamat' => $alamat,
@@ -71,10 +71,10 @@ if(isset($_POST['submit'])):
 			'id_user' => $id_user
 		);
 		if($password) {
-			$prepare_query = 'UPDATE user SET nama = :nama, password = :password, alamat = :alamat, email = :email, role = :role WHERE id_user = :id_user';
+			$prepare_qry = 'UPDATE user SET nama = :nama, password = :password, alamat = :alamat, email = :email, role = :role WHERE id_user = :id_user';
 			$data['password'] = sha1($password);
 		}		
-		$handle = $pdo->prepare($prepare_query);		
+		$handle = $pdo->prepare($prepare_qry);		
 		$sukses = $handle->execute($data);
 	
 	endif;

@@ -10,9 +10,9 @@ $id_user = (isset($_GET['id'])) ? trim($_GET['id']) : '';
 if(!$id_user) {
 	$ada_error = 'Maaf, data tidak dapat diproses.';
 } else {
-	$query = $pdo->prepare('SELECT id_user FROM user WHERE user.id_user = :id_user');
-	$query->execute(array('id_user' => $id_user));
-	$result = $query->fetch();
+	$qry = $pdo->prepare('SELECT id_user FROM user WHERE user.id_user = :id_user');
+	$qry->execute(array('id_user' => $id_user));
+	$result = $qry->fetch();
 	
 	if(empty($result)) {
 		$ada_error = 'Maaf, data tidak dapat diproses.';

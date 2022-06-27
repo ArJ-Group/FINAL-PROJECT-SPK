@@ -49,14 +49,14 @@ if(isset($_POST['submit'])):
 			
 			if($nama != '' && ($nilai >= 0)):
 				
-				$prepare_query = 'INSERT INTO pilihan_kriteria (nama, id_kriteria, nilai, urutan_order) VALUES  (:nama, :id_kriteria, :nilai, :urutan_order)';
+				$prepare_qry = 'INSERT INTO pilihan_kriteria (nama, id_kriteria, nilai, urutan_order) VALUES  (:nama, :id_kriteria, :nilai, :urutan_order)';
 				$data = array(
 					'nama' => $nama,
 					'id_kriteria' => $id_kriteria,
 					'nilai' => $nilai,
 					'urutan_order' => $urutan_order	
 				);		
-				$handle = $pdo->prepare($prepare_query);		
+				$handle = $pdo->prepare($prepare_qry);		
 				$sukses = $handle->execute($data);				
 				
 			endif;		

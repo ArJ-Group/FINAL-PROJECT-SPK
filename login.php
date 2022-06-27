@@ -17,12 +17,12 @@ if (isset($_POST['submit'])) :
 
 	if (empty($errors)) :
 
-		$query = $pdo->prepare('SELECT * FROM user WHERE username = :username');
-		$query->execute(array(
+		$qry = $pdo->prepare('SELECT * FROM user WHERE username = :username');
+		$qry->execute(array(
 			'username' => $username
 		));
-		$query->setFetchMode(PDO::FETCH_ASSOC);
-		$user = $query->fetch();
+		$qry->setFetchMode(PDO::FETCH_ASSOC);
+		$user = $qry->fetch();
 
 		if ($user) {
 			$hashed_password = sha1($password);
@@ -53,7 +53,7 @@ require_once('side/header.php');
 	<link href="stylesheets/new/bootstrap/css/bootstrap.min.css" rel="stylesheet" type="text/css" />
 	<link href="stylesheets/new/assets/css/plugins.css" rel="stylesheet" type="text/css" />
 	
-	<link href="stylesheets/new/plugins/maps/vector/jvector/jquery-jvectormap-2.0.3.css" rel="stylesheet" type="text/css" />
+	<link href="stylesheets/new/plugins/maps/vector/jvector/jqry-jvectormap-2.0.3.css" rel="stylesheet" type="text/css" />
 	<link href="stylesheets/new/plugins/charts/chartist/chartist.css" rel="stylesheet" type="text/css">
 	<link href="stylesheets/new/assets/css/default-dashboard/style.css" rel="stylesheet" type="text/css" />
 	

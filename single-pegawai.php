@@ -9,9 +9,9 @@ $id_pegawai = (isset($_GET['id'])) ? trim($_GET['id']) : '';
 if(!$id_pegawai) {
 	$ada_error = 'Maaf, data tidak dapat diproses.';
 } else {
-	$query = $pdo->prepare('SELECT * FROM pegawai WHERE id_pegawai = :id_pegawai');
-	$query->execute(array('id_pegawai' => $id_pegawai));
-	$result = $query->fetch();
+	$qry = $pdo->prepare('SELECT * FROM pegawai WHERE id_pegawai = :id_pegawai');
+	$qry->execute(array('id_pegawai' => $id_pegawai));
+	$result = $qry->fetch();
 	
 	if(empty($result)) {
 		$ada_error = 'Maaf, data tidak dapat diproses.';
@@ -51,14 +51,14 @@ require_once('side/header.php');
 				?></p>
 				
 				<?php
-				$query2 = $pdo->prepare('SELECT nilai_pegawai.nilai AS nilai, kriteria.nama AS nama FROM kriteria 
+				$qry2 = $pdo->prepare('SELECT nilai_pegawai.nilai AS nilai, kriteria.nama AS nama FROM kriteria 
 				LEFT JOIN nilai_pegawai ON nilai_pegawai.id_kriteria = kriteria.id_kriteria 
 				AND nilai_pegawai.id_pegawai = :id_pegawai ORDER BY kriteria.urutan_order ASC');
-				$query2->execute(array(
+				$qry2->execute(array(
 					'id_pegawai' => $id_pegawai
 				));
-				$query2->setFetchMode(PDO::FETCH_ASSOC);
-				$kriterias = $query2->fetchAll();
+				$qry2->setFetchMode(PDO::FETCH_ASSOC);
+				$kriterias = $qry2->fetchAll();
 				if(!empty($kriterias)):
 				?>
 					<h3>Nilai Kriteria</h3>

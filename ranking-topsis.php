@@ -11,17 +11,17 @@ require_once('side/header.php');
 $digit = 4;
 
 
-$query = $pdo->prepare('SELECT id_kriteria, nama, type, bobot
+$qry = $pdo->prepare('SELECT id_kriteria, nama, type, bobot
 	FROM kriteria ORDER BY urutan_order ASC');
-$query->execute();
-$query->setFetchMode(PDO::FETCH_ASSOC);
-$kriterias = $query->fetchAll();
+$qry->execute();
+$qry->setFetchMode(PDO::FETCH_ASSOC);
+$kriterias = $qry->fetchAll();
 
 
-$query2 = $pdo->prepare('SELECT id_pegawai, nomer FROM pegawai');
-$query2->execute();			
-$query2->setFetchMode(PDO::FETCH_ASSOC);
-$pegawais = $query2->fetchAll();
+$qry2 = $pdo->prepare('SELECT id_pegawai, nomer FROM pegawai');
+$qry2->execute();			
+$qry2->setFetchMode(PDO::FETCH_ASSOC);
+$pegawais = $qry2->fetchAll();
 
 
 
@@ -33,14 +33,14 @@ foreach($kriterias as $kriteria):
 		$id_kriteria = $kriteria['id_kriteria'];
 		
 
-		$query3 = $pdo->prepare('SELECT nilai FROM nilai_pegawai
+		$qry3 = $pdo->prepare('SELECT nilai FROM nilai_pegawai
 			WHERE id_pegawai = :id_pegawai AND id_kriteria = :id_kriteria');
-		$query3->execute(array(
+		$qry3->execute(array(
 			'id_pegawai' => $id_pegawai,
 			'id_kriteria' => $id_kriteria,
 		));			
-		$query3->setFetchMode(PDO::FETCH_ASSOC);
-		if($nilai_pegawai = $query3->fetch()) {
+		$qry3->setFetchMode(PDO::FETCH_ASSOC);
+		if($nilai_pegawai = $qry3->fetch()) {
 		
 			$getCalculate[$id_kriteria][$id_pegawai] = $nilai_pegawai['nilai'];
 		} else {			
@@ -160,7 +160,7 @@ endforeach;
 	<link href="stylesheets/new/bootstrap/css/bootstrap.min.css" rel="stylesheet" type="text/css" />
 	<link href="stylesheets/new/assets/css/plugins.css" rel="stylesheet" type="text/css" />
 
-	<link href="stylesheets/new/plugins/maps/vector/jvector/jquery-jvectormap-2.0.3.css" rel="stylesheet"
+	<link href="stylesheets/new/plugins/maps/vector/jvector/jqry-jvectormap-2.0.3.css" rel="stylesheet"
 		type="text/css" />
 	<link href="stylesheets/new/plugins/charts/chartist/chartist.css" rel="stylesheet" type="text/css">
 	<link href="stylesheets/new/assets/css/default-dashboard/style.css" rel="stylesheet" type="text/css" />
